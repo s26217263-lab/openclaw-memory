@@ -7,7 +7,8 @@ if curl -fsS "$URL/search?q=test&format=json" >/tmp/searxng-check.json 2>/dev/nu
   echo "Sample response saved to /tmp/searxng-check.json"
 else
   echo "SearXNG not reachable at $URL" >&2
-  echo "This workspace currently does not ship or auto-install a local SearXNG service." >&2
-  echo "Install/run SearXNG separately, then retry." >&2
+  echo "This workspace does not bundle a guaranteed local SearXNG service." >&2
+  echo "If Docker/Podman is available, try: ./scripts/start_searxng_if_possible.sh ${URL}" >&2
+  echo "Otherwise point the query script at an already running SearXNG base URL, or fall back to built-in web_search." >&2
   exit 1
 fi
