@@ -1,31 +1,36 @@
 ---
 name: searxng_search
-description: "Search the web using local SearXNG instance. Use when: user wants to search the internet and get JSON results. NOT for: when Brave API or other search providers are available."
+description: "Search the web using a separately running local SearXNG instance that exposes JSON search results, typically at http://localhost:8080. Use when: the user explicitly wants local/private SearXNG search or already has SearXNG running. Do not assume SearXNG is installed; verify availability first."
 ---
 
-# SearXNG Search Skill
+# SearXNG Search
 
-Search the web using local SearXNG instance at http://localhost:8080
+Use this skill only after confirming a local SearXNG instance is reachable.
 
-## When to Use
+## Reality check
 
-✅ **USE this skill when:**
+This workspace does **not** include a bundled SearXNG server. On this machine, `http://localhost:8080` must already be provided by a separate install (Docker, local service, VM, remote tunnel, etc.).
 
-- User wants to search the web
-- Brave API is not configured
-- Need JSON format results for easy parsing
+Check first:
 
-## Command
+```bash
+cd /Users/palpet/.openclaw/workspace/skills/searxng_search
+./scripts/check_local_searxng.sh
+```
 
-curl -s "http://localhost:8080/search?q={query}&format=json"
+## Search command
 
-## Example
+```bash
+curl -fsS "http://localhost:8080/search?q=OpenClaw+AI&format=json"
+```
 
-curl -s "http://localhost:8080/search?q=OpenClaw+AI&format=json"
+Optional parameters:
+- `categories=news`
+- `language=zh-CN`
+- `time_range=day`
+- `pageno=1`
 
-## Output Format
+## Notes
 
-Returns JSON with results array containing:
-- title: Result title
-- url: Result URL  
-- content: Result snippet/summary
+- If the check script fails, fall back to the built-in `web_search` tool instead of pretending local SearXNG exists.
+- Treat `localhost:8080` as a convention, not a guarantee.

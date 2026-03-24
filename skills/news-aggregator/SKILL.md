@@ -1,56 +1,50 @@
 ---
 name: news-aggregator
-description: "Aggregate AI and tech news from multiple sources using SearXNG. Use for: daily AI news reports, tech trends. NOT for: when direct API access is available."
+description: "Aggregate AI and tech news from a separately running local SearXNG instance, usually at http://localhost:8080. Use for daily AI news reports or tech trend summaries only when SearXNG is already available; otherwise fall back to normal web search."
 ---
 
-# News Aggregator Skill
+# News Aggregator
 
-Collect AI and tech news using local SearXNG instance at http://localhost:8080
+Aggregate AI / tech news through local SearXNG **only after** verifying the service is reachable.
 
-## When to Use
+## Check local service first
 
-✅ **USE this skill when:**
-
-- User wants daily AI/Tech news
-- Building morning/evening news reports
-- Need web search results in JSON format
-
-## How It Works
-
-This skill uses SearXNG to search for news. It queries multiple topics and aggregates results.
-
-## Commands
-
-### Search for AI News
 ```bash
-curl -s "http://localhost:8080/search?q=AI人工智能新闻+2026年&format=json&freshness=pd"
+cd /Users/palpet/.openclaw/workspace/skills/news-aggregator
+./scripts/check_local_searxng.sh
 ```
 
-### Search for GitHub Trending
+If the check fails, do **not** use this skill as-is; use the normal web search tool instead.
+
+## Example searches
+
+### AI news
+
 ```bash
-curl -s "http://localhost:8080/search?q=开源项目+GitHub+AI+2026&format=json&freshness=pm"
+curl -fsS "http://localhost:8080/search?q=AI人工智能新闻&categories=news&format=json&time_range=day"
 ```
 
-### Search for Tech News
+### Tech headlines
+
 ```bash
-curl -s "http://localhost:8080/search?q=科技新闻+2026年3月&format=json&freshness=pd"
+curl -fsS "http://localhost:8080/search?q=科技新闻&categories=news&format=json&time_range=day"
 ```
 
-## Output Format
+### Open-source / GitHub topics
 
-Returns JSON with results array containing:
-- title: Result title
-- url: Result URL
-- content: Result snippet/summary
-- publishedDate: Publication date (if available)
-- engine: Search engine used
+```bash
+curl -fsS "http://localhost:8080/search?q=GitHub+AI+开源&categories=news&format=json&time_range=week"
+```
 
-## Usage in Agent
+## What to extract
 
-Use exec tool to call curl commands above, then parse JSON results.
+From each result, keep:
+- `title`
+- `url`
+- `content`
+- `publishedDate` or equivalent timestamp if present
+- `engine`
 
-## Notes
+## Operating note
 
-- SearXNG must be running on localhost:8080
-- Use `freshness=pd` for today, `freshness=pm` for this week
-- Add `&num_results=10` to limit results
+This skill documents query patterns; it does not install or manage SearXNG for you.

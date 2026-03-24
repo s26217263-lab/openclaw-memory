@@ -1,40 +1,75 @@
 ---
 name: jimeng-auto-generator
-description: "从 xlsx 分镜脚本中读取提示词，并通过本地网页服务配合即梦 AI 批量生成图片。适用于用户提到：批量生图、上传 xlsx 生图、即梦自动提交、Jimeng 自动生成。"
+description: "从 xlsx 分镜脚本中提取即梦 AI 提示词，并通过本地 Flask 页面或命令行导出待提交队列。适用于用户提到：批量生图、上传 xlsx 生图、即梦半自动提交、Jimeng 提示词提取。仅在本机 OpenClaw 浏览器已启动且用户已登录即梦时，才尝试半自动浏览器操作。"
 ---
 
-# Jimeng Auto Image Generator
+# Jimeng Auto Generator
 
-从 xlsx 文件读取分镜脚本，在即梦 AI 中批量生成图片的本地自动化流程。
+把 Excel 分镜脚本变成可用的 Jimeng 提示词队列。
 
-## Requirements
+## 当前能力边界
 
-- Python 3.10+（至少需要能安装依赖并运行本地服务）
-- Python packages: `openpyxl`, `flask`
-- Chrome 浏览器
-- 保持即梦网页已登录
+这个 skill **现在是可运行的提示词提取/排队工具**，不是完全无人值守的即梦生成器。
 
-## Workflow
+可做：
+- 读取 `.xlsx` 分镜脚本
+- 自动识别常见提示词列（优先 `画面文字描述`，否则回退到 `提示词`/`prompt`/第二列）
+- 通过 Flask 页面预览提示词
+- 通过命令行导出 JSON/TXT 提示词列表
+- 检查 OpenClaw gateway/browser 是否就绪
 
-1. 安装依赖：`pip install openpyxl flask`
-2. 在 skill 目录启动本地服务：`python app.py`
-3. 打开 `http://localhost:5001`
-4. 上传 xlsx 分镜脚本
-5. 从表格中提取提示词并启动批处理流程
-6. 注意：当前版本的浏览器自动提交通路未完全接通，更适合作为提示词提取与半自动提交页面
+不可保证：
+- 无登录态地直接提交到即梦
+- 在未知页面结构下稳定点击/输入
+- 跨会话复用固定 ref / target id
 
-## Expected File Format
+## 先决条件
 
-xlsx 需要至少包含这些列：
+- Python 3.9+
+- `pip install -r requirements.txt`
+- 若要做浏览器半自动流程：
+  - OpenClaw gateway 正常
+  - `openclaw browser start`
+  - 在 OpenClaw 浏览器里登录 Jimeng 并打开生图页
 
-- `镜号`
+## 最稳妥的用法
+
+### 1) 命令行提取提示词
+
+```bash
+cd /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+python3 scripts/parse_xlsx_prompts.py /path/to/storyboard.xlsx
+python3 scripts/parse_xlsx_prompts.py /path/to/storyboard.xlsx --repeat 3 --format txt
+```
+
+### 2) 检查浏览器环境
+
+```bash
+cd /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+./scripts/check_browser_env.sh
+```
+
+### 3) 启动本地预览页
+
+```bash
+cd /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+python3 app.py
+```
+
+访问 `http://localhost:5001`，上传 xlsx 后确认提示词列表。
+
+## xlsx 输入格式
+
+优先识别这些列名：
 - `画面文字描述`
+- `提示词`
+- `prompt`
+- `description`
 
-通常将 `画面文字描述` 作为生成提示词来源。
+如果没有匹配列，则默认尝试第二列（常见分镜表的 B 列）。
 
-## Notes
+## 使用原则
 
-- 当前环境若缺少依赖，需要先补装 Python 包
-- 当前仓库中的 `app.py` 主要完成 xlsx 解析、任务队列和页面展示；真正自动提交到即梦的链路仍需继续改造
-- 如果要稳定复用，优先把脚本整理到 `scripts/` 目录并补充最小使用说明
-- 若浏览器自动化依赖扩展或固定页面结构，每次使用前先确认即梦页面仍兼容
+- 先把“提取提示词”当作确定能力。
+- 只有在本地浏览器实际可用、Jimeng 页面已打开时，才继续半自动提交。
+- 每次会话都重新获取快照，不要依赖旧的 ref / target id。
