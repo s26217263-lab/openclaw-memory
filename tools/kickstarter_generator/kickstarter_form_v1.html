@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kickstarter Copy Generator — v1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d0d14;
+      color: #e0ddd8;
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #c9a84c;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #7a7568;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 900px;
+    }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    label {
+      font-size: 12px;
+      color: #8a8470;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    input, textarea, select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: #e0ddd8;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #c9a84c;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    select { cursor: pointer; }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: #c9a84c;
+      color: #0d0d14;
+    }
+    .btn-primary:hover { background: #d4b55a; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #8a8470;
+    }
+    .btn-secondary:hover { border-color: #c9a84c; color: #c9a84c; }
+    #output {
+      margin-top: 40px;
+      max-width: 900px;
+      display: none;
+    }
+    #output.show { display: block; }
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .output-title {
+      font-size: 14px;
+      color: #c9a84c;
+      font-weight: 600;
+    }
+    .copy-btn {
+      font-size: 12px;
+      padding: 6px 14px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: #c9a84c;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: rgba(201,168,76,0.2); }
+    #markdown-output {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 24px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      color: #b8b4ac;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .section-bar {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 24px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Kickstarter Copy Generator</h1>
+<p class="subtitle">v1 · Shenpan Edition · Input product info → Get full Kickstarter copy pack</p>
+
+<div class="grid">
+  <div class="field full">
+    <label>Product Name</label>
+    <input type="text" id="productName" value="Shenpan" placeholder="e.g. Shenpan">
+  </div>
+
+  <div class="field full">
+    <label>One-liner Tagline</label>
+    <input type="text" id="tagline" value="A cyber-feng-shui ritual object for modern life.">
+  </div>
+
+  <div class="field">
+    <label>Target Audience (comma separated)</label>
+    <input type="text" id="audience" value="young creatives, collectors, spiritually-curious users">
+  </div>
+
+  <div class="field">
+    <label>Core Product Type</label>
+    <select id="productType">
+      <option value="Web AI service + physical ritual compass" selected>Physical + Web AI</option>
+      <option value="Physical ritual object only">Physical only</option>
+      <option value="Digital product only">Digital only</option>
+    </select>
+  </div>
+
+  <div class="field full">
+    <label>Top 3 Benefits (one per line)</label>
+    <textarea id="benefits">clarity
+direction
+ritualized luck</textarea>
+  </div>
+
+  <div class="field full">
+    <label>Why It Matters — Emotional Story (2-3 sentences)</label>
+    <textarea id="story">Shenpan is not the AI itself — it is the ritual object that opens the door. A cyber-feng-shui compass on your desk, carrying symbolism, luck, direction, and a physical connection to your AI guide.</textarea>
+  </div>
+
+  <div class="field">
+    <label>Tone Keywords (comma separated)</label>
+    <input type="text" id="tone" value="mystical, cyber-eastern, premium, ritual, guidance">
+  </div>
+
+  <div class="field">
+    <label>Shipping Target</label>
+    <select id="shipping">
+      <option value="Worldwide" selected>Worldwide</option>
+      <option value="US & Canada">US & Canada</option>
+      <option value="Europe only">Europe only</option>
+      <option value="Asia only">Asia only</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Campaign Goal (USD)</label>
+    <input type="number" id="goal" value="10000">
+  </div>
+
+  <div class="field">
+    <label>Funding Duration (days)</label>
+    <input type="number" id="duration" value="30">
+  </div>
+
+  <div class="field">
+    <label>Estimated Delivery Month</label>
+    <input type="text" id="delivery" value="November 2026">
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn-primary" onclick="generate()">Generate Copy Pack</button>
+  <button class="btn-secondary" onclick="clearForm()">Clear</button>
+</div>
+
+<div id="output">
+  <div class="output-header">
+    <span class="output-title">Generated Kickstarter Copy — Markdown</span>
+    <button class="copy-btn" onclick="copyOutput()">Copy to clipboard</button>
+  </div>
+  <div id="markdown-output"></div>
+</div>
+
+<script>
+function generate() {
+  const name = document.getElementById('productName').value.trim() || 'Product';
+  const tagline = document.getElementById('tagline').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const ptype = document.getElementById('productType').value;
+  const story = document.getElementById('story').value.trim();
+  const tone = document.getElementById('tone').value.trim();
+  const shipping = document.getElementById('shipping').value;
+  const goal = document.getElementById('goal').value;
+  const duration = document.getElementById('duration').value;
+  const delivery = document.getElementById('delivery').value;
+  const benefits = document.getElementById('benefits').value.trim().split('\n').filter(Boolean);
+
+  const benefitList = benefits.map(b => `- ${b}`).join('\n');
+
+  const tiers = [
+    { name: 'Early Bird Basic', price: 29, early: 19, includes: ['6cm brass ritual compass', '1 year AI web companion access', 'Digital welcome kit'], limit: 'Limited to 200 backers' },
+    { name: 'Early Bird Standard', price: 49, early: 39, includes: ['8cm brass ritual compass', 'NFC-triggered web experience', '1 year AI companion access', 'Priority support'], limit: 'Limited to 150 backers' },
+    { name: 'Early Bird Premium', price: 79, early: 69, includes: ['Premium compass (brass + obsidian)', 'Lifetime AI access', 'NFT identity badge', 'Exclusive quarterly reflections'], limit: 'Limited to 100 backers' },
+    { name: 'Gift Set', price: 99, early: 89, includes: ['Two standard compasses', '2 years AI access for both', 'Premium gift packaging', 'Personalized greeting card'], limit: '' }
+  ];
+
+  const rewardTiers = tiers.map(t => {
+    let lines = [`## ${t.name} — $${t.early} (Early Bird)`];
+    lines.push(`**$${t.price} after campaign · ${t.limit}**\n`);
+    lines.push('Includes:');
+    t.includes.forEach(i => lines.push(`- ${i}`));
+    return lines.join('\n');
+  }).join('\n\n');
+
+  const faq = [
+    ['What is ' + name + '?', name + ' is a physical ritual compass paired with a web-based AI companion. The moment you spin the compass, your personalized daily guidance session begins.'],
+    ['How does it work?', 'Tap the compass NFC tag or scan the QR to open your web dashboard. The AI greets you, asks what matters most today, and stays with you until it\'s done.'],
+    ['What does the AI actually do?', 'It\'s a digital guide. Not a chatbot — it tracks your most important task, follows up, and helps you finish the day with a clear result.'],
+    ['Is this a meditation product?', 'Not exactly. It\'s a daily ritual object designed for calm, direction, and sustained progress — used at your desk, not on a meditation cushion.'],
+    ['Where do you ship?', shipping + '. All shipments include tracking.'],
+    ['When will I receive my reward?', 'Estimated delivery: ' + delivery + '. We\'ll send tracking updates throughout production.'],
+    ['What if the campaign doesn\'t fund?', 'Full refund, no questions asked. Your card is only charged if the campaign reaches its goal.']
+  ].map(([q, a]) => `### ${q}\n${a}`).join('\n\n');
+
+  const risks = `### Risks & Challenges
+
+- **Manufacturing**: We\'ve sourced prototype samples and confirmed supplier capability. Full production begins immediately after funding.
+- **NFC integration**: NFC chips will be embedded during manufacturing, not added post-production, to ensure durability.
+- **Shipping delays**: We\'ve buffer-built 6 weeks into our timeline to account for production and customs.
+- **Currency / stretch goals**: All prices listed in USD. Stretch goals unlock only after core funding is confirmed.
+
+We are committed to transparent updates every 2 weeks throughout the campaign and production period.`;
+
+  const timeline = `### Campaign Timeline
+
+| Milestone | Date |
+|-----------|------|
+| Campaign Launch | ${new Date().toLocaleString('en-US', {month:'long', year:'numeric'})} |
+| Campaign Ends | ${duration} days after launch |
+| Production Start | Week 1-2 post-funding |
+| Quality Check | Week 4-6 |
+| Shipping Begins | ${delivery} |
+| All Rewards Delivered | ${delivery} |`;
+
+  const output = `# ${name} — Kickstarter Project Copy Pack
+
+---
+
+## Project Title
+${name} — A Cyber-Feng-Shui Ritual Object
+
+## Short Blurb
+${tagline}
+
+## Project Story
+
+${story}
+
+## What You Get
+
+A beautifully designed desk compass that triggers your personal AI focus companion via NFC. Every morning, you spin the compass, face your most important task, and end the day with a result — not just an intention.
+
+**Key features:**
+${benefitList}
+
+---
+
+## Reward Tiers
+
+${rewardTiers}
+
+---
+
+## Frequently Asked Questions
+
+${faq}
+
+---
+
+## Risks & Challenges
+
+${risks}
+
+---
+
+## Campaign Details
+
+| | |
+|---|---|
+| Goal | $${Number(goal).toLocaleString()} |
+| Duration | ${duration} days |
+| Ships | ${shipping} |
+| Est. Delivery | ${delivery} |
+
+${timeline}
+
+---
+
+*Generated by Kickstarter Copy Generator v1 · ${new Date().toLocaleDateString()}*
+`;
+
+  document.getElementById('output').classList.add('show');
+  document.getElementById('markdown-output').textContent = output;
+  window._generatedOutput = output;
+}
+
+function copyOutput() {
+  if (window._generatedOutput) {
+    navigator.clipboard.writeText(window._generatedOutput).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy to clipboard', 2000);
+    });
+  }
+}
+
+function clearForm() {
+  document.querySelectorAll('input, textarea').forEach(el => {
+    if (el.type === 'checkbox') { el.checked = false; }
+    else if (el.type === 'number') { el.value = ''; }
+    else { el.value = ''; }
+  });
+  document.getElementById('output').classList.remove('show');
+  window._generatedOutput = '';
+}
+</script>
+
+</body>
+</html>

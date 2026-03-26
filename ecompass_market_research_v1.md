@@ -297,3 +297,45 @@ ecompass 作为数字服务，建议：
 ---
 
 *本报告为 ecompass 市场调查 v1，基于公开数据整理，供产品决策参考。*
+
+
+---
+
+## 第七部分：对当前方案的直接修正建议
+
+基于用户新拍板，当前方案不再走“纯数字”或“纯实体”，而是明确为：
+
+> **网页 AI 服务 + 实体罗盘（Kickstarter / 欧美市场）**
+
+### 修正后的市场表达
+- 对外不主打“八卦 / 神盘 / 风水”，避免文化理解门槛
+- 对外优先主打：
+  - ritual compass
+  - desk ritual object
+  - tactile focus companion
+  - daily reset tool
+
+### 修正后的定价策略
+采用平衡款 B：
+- 基础版：¥199
+- 标准版：¥299
+- 高端版：¥499
+
+### 修正后的目标
+不是先做国内卖货页，而是先做：
+1. Kickstarter 落地页
+2. 欧美用户可理解的视频脚本
+3. 样品与档位映射
+4. 众筹前主视觉与故事包装
+
+
+---
+
+## 第八部分：定位纠偏后的市场叙事
+
+修正后，神盘不再主打 productivity tool，而是更接近：
+- cyber feng shui object
+- ritual desk talisman
+- AI-linked mystical object
+
+对于欧美众筹市场，这比“任务推进工具”更有记忆点，也更符合视觉审美、礼品属性与社交传播属性。

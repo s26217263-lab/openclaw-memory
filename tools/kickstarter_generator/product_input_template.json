@@ -1,0 +1,65 @@
+{
+  "product_name": "Shenpan",
+  "tagline": "A cyber-feng-shui ritual object for modern life.",
+  "market": "Kickstarter / Western market",
+  "product_type": "Web AI service + physical ritual compass",
+  "target_audience": [
+    "founders",
+    "creatives",
+    "knowledge workers",
+    "people who feel mentally scattered"
+  ],
+  "core_benefits": [
+    "clarity",
+    "direction",
+    "ritualized luck",
+    "AI-guided insight"
+  ],
+  "reward_tiers": [
+    {
+      "name": "Basic",
+      "price_usd": 29,
+      "includes": [
+        "6cm brass compass",
+        "1 year AI access"
+      ]
+    },
+    {
+      "name": "Standard",
+      "price_usd": 49,
+      "includes": [
+        "8cm brass compass",
+        "NFC access",
+        "1 year AI access"
+      ]
+    },
+    {
+      "name": "Premium",
+      "price_usd": 79,
+      "includes": [
+        "premium compass",
+        "lifetime AI access",
+        "NFT identity"
+      ]
+    },
+    {
+      "name": "Gift Set",
+      "price_usd": 99,
+      "includes": [
+        "2 compasses",
+        "2 years AI access"
+      ]
+    }
+  ],
+  "tone_keywords": [
+    "mystical",
+    "cyber-eastern",
+    "premium",
+    "ritual",
+    "guidance"
+  ],
+  "image_assets": [
+    "compass_design_v1.jpg",
+    "compass_design_v2.jpg"
+  ]
+}
