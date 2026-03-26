@@ -1,0 +1,82 @@
+[2026-03-25 19:45:25] backup start -> /Users/palpet/.openclaw/workspace/backups/openclaw/2026-03-25/194525
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/SOUL.md
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/USER.md
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/IDENTITY.md
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/TOOLS.md
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/AGENTS.md
+[2026-03-25 19:45:25] missing, skipped: /Users/palpet/.openclaw/workspace/MEMORY.md
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/memory
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/workspace/skills
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/openclaw.json
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/cron/jobs.json
+[2026-03-25 19:45:25] copied: /Users/palpet/.openclaw/agents/main/agent
+[2026-03-25 19:45:25] missing, skipped: /Users/palpet/.openclaw/agents/ops/agent
+[2026-03-25 19:45:25] missing, skipped: /Users/palpet/.openclaw/agents/ecompass/agent
+[2026-03-25 19:45:25] GH_TOKEN/GITHUB_TOKEN not set or gh missing; skipped github remote context
+[2026-03-25 19:45:25] backup complete
+[2026-03-25 23:33:26] backup start -> /Users/palpet/.openclaw/workspace/backups/openclaw/2026-03-25/233326
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/SOUL.md
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/USER.md
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/IDENTITY.md
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/TOOLS.md
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/AGENTS.md
+[2026-03-25 23:33:26] missing, skipped: /Users/palpet/.openclaw/workspace/MEMORY.md
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/memory
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/workspace/skills
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/openclaw.json
+[2026-03-25 23:33:26] copied: /Users/palpet/.openclaw/cron/jobs.json
+[2026-03-25 23:33:27] copied: /Users/palpet/.openclaw/agents/main
+[2026-03-25 23:33:27] copied: /Users/palpet/.openclaw/agents/ops
+[2026-03-25 23:33:27] copied: /Users/palpet/.openclaw/agents/ecompass
+[2026-03-25 23:33:27] github auth token detected; collecting lightweight remote context
+[2026-03-25 23:33:32] pushing backup to GitHub via API...
+[2026-03-25 23:38:51] backup start -> /Users/palpet/.openclaw/workspace/backups/openclaw/2026-03-25/233851
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/SOUL.md
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/USER.md
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/IDENTITY.md
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/TOOLS.md
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/AGENTS.md
+[2026-03-25 23:38:51] missing, skipped: /Users/palpet/.openclaw/workspace/MEMORY.md
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/memory
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/openclaw.json
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/cron/jobs.json
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/agents/main
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/agents/ops
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/agents/ecompass
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/projects
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/skills/video-production-automation
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/skills/video-script-generator
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/skills/video-to-jimeng-images
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/skills/tavily-search-skill
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/scripts/nightly_openclaw_backup.sh
+[2026-03-25 23:38:51] copied: /Users/palpet/.openclaw/workspace/scripts/watchdog_openclaw.sh
+[2026-03-25 23:38:51] local backup complete
+[2026-03-25 23:38:51] pruned local backups older than 7 days
+[2026-03-25 23:38:51] pushing backup to GitHub...
+[2026-03-25 23:45:19] backup complete
+[2026-03-26 03:00:01] backup start -> /Users/palpet/.openclaw/workspace/backups/openclaw/2026-03-26/030001
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/SOUL.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/USER.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/IDENTITY.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/TOOLS.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/AGENTS.md
+[2026-03-26 03:00:01] missing, skipped: /Users/palpet/.openclaw/workspace/MEMORY.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/memory
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/openclaw.json
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/cron/jobs.json
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/main
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/ops
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/ecompass
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/projects
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-production-automation
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-script-generator
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-to-jimeng-images
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/tavily-search-skill
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/scripts/nightly_openclaw_backup.sh
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/scripts/watchdog_openclaw.sh
+[2026-03-26 03:00:01] local backup complete
+[2026-03-26 03:00:01] pruned local backups older than 7 days
+[2026-03-26 03:00:01] pushing backup to GitHub...
+[2026-03-26 03:05:17] backup complete

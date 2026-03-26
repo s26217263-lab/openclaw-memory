@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ecompass — AI 经营助手</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      background: #0a0a0f;
+      color: #e8e8f0;
+      line-height: 1.7;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 24px;
+      background: radial-gradient(ellipse at 50% 0%, #1a1a2e 0%, #0a0a0f 70%);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 1px solid #3a3a5c;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #8888aa;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 80px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #e8e8f0 0%, #8888cc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #8888aa;
+      max-width: 540px;
+      margin-bottom: 48px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      background: #6c63ff;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #6c63ff;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #e8e8f0;
+      margin-bottom: 48px;
+      letter-spacing: -1px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: #12121c;
+      border: 1px solid #1e1e30;
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: #1e1e30;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e8e8f0;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666680;
+      line-height: 1.6;
+    }
+
+    .big-quote {
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 300;
+      color: #c8c8e0;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+      letter-spacing: -0.5px;
+    }
+
+    .big-quote span {
+      color: #6c63ff;
+      font-weight: 600;
+    }
+
+    .timeline {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 40px;
+      align-items: flex-start;
+    }
+
+    .timeline-left {
+      min-width: 80px;
+      font-size: 13px;
+      color: #6c63ff;
+      font-weight: 600;
+      padding-top: 2px;
+    }
+
+    .timeline-right h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e8e8f0;
+      margin-bottom: 6px;
+    }
+
+    .timeline-right p {
+      font-size: 14px;
+      color: #666680;
+    }
+
+    .model-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .model-chip {
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .chip-primary { background: #1e1e40; color: #a0a0ff; border: 1px solid #3a3a6c; }
+    .chip-mini { background: #1a1a2e; color: #8080cc; border: 1px solid #2a2a50; }
+    .chip-m2 { background: #12122a; color: #7070bb; border: 1px solid #202040; }
+
+    .arrow {
+      color: #3a3a5c;
+      font-size: 18px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 60px 24px;
+      border-top: 1px solid #1a1a2a;
+      color: #44445a;
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .model-flow { gap: 8px; }
+      .arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">AI 经营助手 · v1</div>
+  <h1>ecompass</h1>
+  <p>不是会聊天的 AI，是能帮你的项目持续推进的 AI CEO。</p>
+  <a class="cta-btn" href="#what">了解更多</a>
+</section>
+
+<!-- WHAT -->
+<section class="section" id="what">
+  <div class="section-label">是什么</div>
+  <div class="section-title">ecompass 的核心定位</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>目标收敛</h3>
+      <p>帮你的项目聚焦最重要的那一件事，而不是让精力被大量想法分散。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>持续推进</h3>
+      <p>不是回答一次就结束，而是持续跟踪、持续推进、直到闭环。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <h3>结果汇报</h3>
+      <p>只给你真正需要知道的东西：当前目标、实际产出、阻塞点、等待拍板。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <h3>纠偏机制</h3>
+      <p>遇到方向偏离时，主动识别并提出纠偏建议，而不是沉默等待。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>稳定在线</h3>
+      <p>基于可靠的模型策略，保证关键时刻不掉线、不失声。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤝</div>
+      <h3>少打扰多推进</h3>
+      <p>默认主动推进，只在真正需要拍板时才打扰你，减少无价值沟通。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CORE VALUE -->
+<section class="section" style="text-align:center;">
+  <div class="section-label">核心差异</div>
+  <div class="big-quote">
+    大部分 AI 在解决"<span>会回答</span>"，<br>
+    ecompass 在解决"<span>能做成</span>"。
+  </div>
+</section>
+
+<!-- MODEL STRATEGY -->
+<section class="section">
+  <div class="section-label">模型策略</div>
+  <div class="section-title">三层模型 · 按需调用</div>
+  <div class="model-flow">
+    <div class="model-chip chip-primary">CEO层 · gpt-5.4</div>
+    <div class="arrow">→</div>
+    <div class="model-chip chip-mini">执行层 · gpt-5.4-mini</div>
+    <div class="arrow">→</div>
+    <div class="model-chip chip-m2">兜底层 · M2.7</div>
+  </div>
+  <p style="text-align:center; color:#44445a; font-size:13px; margin-top:24px;">
+    gpt-5.4 用于主判断层 · 失败时直接切换 M2.7（跨供应商容灾）
+  </p>
+</section>
+
+<!-- WHO IT IS FOR -->
+<section class="section">
+  <div class="section-label">目标用户</div>
+  <div class="section-title">谁最需要 ecompass</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <h3>创业者 / 小团队负责人</h3>
+      <p>同时盯多个事项，需要一个稳定的 AI 帮你持续推进主线。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <h3>电商 / 内容 / AI 项目经营者</h3>
+      <p>有明确目标但缺执行节奏，需要有人帮你把事情往前推进。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💼</div>
+      <h3>需要 AI 对结果负责的人</h3>
+      <p>不想每次都手把手指挥 AI，需要 AI 具备主动推进和汇报能力。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE -->
+<section class="section">
+  <div class="section-label">未来规划</div>
+  <div class="section-title">ecompass 将走向哪里</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-left">现在</div>
+      <div class="timeline-right">
+        <h4>最小闭环验证</h4>
+        <p>在真实项目里跑通：目标 → 执行 → 汇报 → 纠偏 → 结果闭环。</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-left">30天</div>
+      <div class="timeline-right">
+        <h4>执行稳定性</h4>
+        <p>固化汇报机制与 owner 规则，在实际项目里证明 ecompass 能持续推进。</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-left">60天</div>
+      <div class="timeline-right">
+        <h4>多场景适配</h4>
+        <p>扩展到更多真实业务场景，形成可复制的操作模板和 SOP。</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-left">90天</div>
+      <div class="timeline-right">
+        <h4>商业化雏形</h4>
+        <p>跑通至少一个高价值场景，形成标准案例，明确收费方式与目标客户画像。</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-left">长期</div>
+      <div class="timeline-right">
+        <h4>AI 经营系统</h4>
+        <p>成为真正的 AI 业务合伙人，能替负责人持续盯业务推进的操作层。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="hero">
+  <div class="badge">ecompass v1</div>
+  <h1>目标收敛 · 持续推进 · 结果驱动</h1>
+  <p>不是更强的聊天机器人，是能帮你把事情做成的 AI CEO。</p>
+  <a class="cta-btn" href="javascript:void(0)">即将到来</a>
+</section>
+
+<div class="footer">
+  ecompass v1 · AI 经营助手 · 2026
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "7dd53373-8af4-462b-81c6-87c3805d82de",
+      "agentId": "main",
+      "name": "openclaw-watchdog",
+      "description": "OpenClaw本地watchdog：检测网关健康，fail一次重试，fail两次自动restart",
+      "enabled": true,
+      "createdAtMs": 1774359769742,
+      "updatedAtMs": 1774438989218,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 300000,
+        "anchorMs": 1774359769742
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "WATCHDOG_CHECK",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "last"
+      },
+      "state": {
+        "nextRunAtMs": 1774439270880,
+        "lastRunAtMs": 1774438970880,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 18338,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
+      },
+      "failureAlert": {
+        "after": 1,
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "cooldownMs": 1800000
+      }
+    },
+    {
+      "id": "a02adea0-7497-4937-abe8-b3db000f64c1",
+      "agentId": "main",
+      "name": "hourly-status-report",
+      "description": "每小时整点汇报：网关状态、健康检查摘要、待处理事项",
+      "enabled": false,
+      "createdAtMs": 1774363474431,
+      "updatedAtMs": 1774431928712,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 21600000,
+        "anchorMs": 1774363554979
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "HEARTBEAT_REPORT",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "last",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356"
+      },
+      "state": {
+        "lastRunAtMs": 1774428354997,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 17239,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "17c29aaa-fafe-4fac-b155-c77de6add4f2",
+      "agentId": "main",
+      "name": "scheduled-house-doc-report",
+      "description": "每日 7:00 / 12:00 / 18:00 / 22:00 发送 House check + doc watch 检测报告；其他时间静默",
+      "enabled": true,
+      "createdAtMs": 1774431929114,
+      "updatedAtMs": 1774432893359,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 7,12,18,22 * * *",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "请执行 House check 和 doc watch 检测，并发送一份简洁报告给当前用户。要求：1）只汇报关键信息；2）包含状态、异常、建议动作；3）如果一切正常，明确写“正常”；4）不要在其他时间主动发送。",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "bestEffort": true
+      },
+      "state": {
+        "nextRunAtMs": 1774447200000,
+        "lastRunAtMs": 1774432800010,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 93349,
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0
+      }
+    }
+  ]
+}

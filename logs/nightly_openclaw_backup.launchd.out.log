@@ -1,0 +1,34 @@
+[2026-03-26 03:00:01] backup start -> /Users/palpet/.openclaw/workspace/backups/openclaw/2026-03-26/030001
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/SOUL.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/USER.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/IDENTITY.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/TOOLS.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/AGENTS.md
+[2026-03-26 03:00:01] missing, skipped: /Users/palpet/.openclaw/workspace/MEMORY.md
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/memory
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/openclaw.json
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/cron/jobs.json
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/main
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/ops
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/agents/ecompass
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/projects
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/jimeng-auto-generator
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-production-automation
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-script-generator
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/video-to-jimeng-images
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/skills/tavily-search-skill
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/scripts/nightly_openclaw_backup.sh
+[2026-03-26 03:00:01] copied: /Users/palpet/.openclaw/workspace/scripts/watchdog_openclaw.sh
+[2026-03-26 03:00:01] local backup complete
+[2026-03-26 03:00:01] pruned local backups older than 7 days
+[2026-03-26 03:00:01] pushing backup to GitHub...
+files: 333
+  GH API error: HTTP Error 422: Unprocessable Entity
+  blob failed: agents/main/sessions/7aef42b3-b45d-41be-a854-9c48e42ea143.jsonl
+  GH API error: HTTP Error 422: Unprocessable Entity
+  blob failed: agents/main/sessions/ecdc04ba-b79d-4416-99e6-63be485df129.jsonl
+  GH API error: HTTP Error 422: Unprocessable Entity
+  blob failed: agents/main/sessions/72e6e359-c418-4d39-9190-3749c3a40ec6.jsonl
+blobs: 330
+  pushed 330 files to GitHub
+[2026-03-26 03:05:17] backup complete

@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "7dd53373-8af4-462b-81c6-87c3805d82de",
+      "agentId": "main",
+      "name": "openclaw-watchdog",
+      "description": "OpenClaw本地watchdog：检测网关健康，fail一次重试，fail两次自动restart",
+      "enabled": true,
+      "createdAtMs": 1774359769742,
+      "updatedAtMs": 1774461753155,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 300000,
+        "anchorMs": 1774359769742
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "WATCHDOG_CHECK",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "last"
+      },
+      "state": {
+        "nextRunAtMs": 1774465353155,
+        "lastRunAtMs": 1774461633140,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 120015,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 7,
+        "lastFailureAlertAtMs": 1774461753257,
+        "lastErrorReason": "timeout",
+        "lastError": "cron: job execution timed out"
+      },
+      "failureAlert": {
+        "after": 1,
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "cooldownMs": 1800000
+      }
+    },
+    {
+      "id": "a02adea0-7497-4937-abe8-b3db000f64c1",
+      "agentId": "main",
+      "name": "hourly-status-report",
+      "description": "每小时整点汇报：网关状态、健康检查摘要、待处理事项",
+      "enabled": false,
+      "createdAtMs": 1774363474431,
+      "updatedAtMs": 1774431928712,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 21600000,
+        "anchorMs": 1774363554979
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "HEARTBEAT_REPORT",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "last",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356"
+      },
+      "state": {
+        "lastRunAtMs": 1774428354997,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 17239,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "17c29aaa-fafe-4fac-b155-c77de6add4f2",
+      "agentId": "main",
+      "name": "scheduled-house-doc-report",
+      "description": "每日 7:00 / 12:00 / 18:00 / 22:00 发送 House check + doc watch 检测报告；其他时间静默",
+      "enabled": true,
+      "createdAtMs": 1774431929114,
+      "updatedAtMs": 1774447220538,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 7,12,18,22 * * *",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "请执行 House check 和 doc watch 检测，并发送一份简洁报告给当前用户。要求：1）只汇报关键信息；2）包含状态、异常、建议动作；3）如果一切正常，明确写“正常”；4）不要在其他时间主动发送。",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "bestEffort": true
+      },
+      "state": {
+        "nextRunAtMs": 1774479600000,
+        "lastRunAtMs": 1774447200007,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 20531,
+        "lastDeliveryStatus": "unknown",
+        "consecutiveErrors": 1,
+        "lastError": "Error: All models failed (2): openai-codex/gpt-5.4: ⚠️ API rate limit reached. Please try again later. (rate_limit) | openai-codex/gpt-5.4-mini: ⚠️ API rate limit reached. Please try again later. (rate_limit)",
+        "lastErrorReason": "rate_limit"
+      }
+    },
+    {
+      "id": "2c72ff08-80d7-400d-ad38-0f18452d17c2",
+      "agentId": "ecompass",
+      "name": "ecompass-overnight-report",
+      "description": "每天 07:00 汇报前一晚 23:00 到 07:00 的电子罗盘项目推进情况",
+      "enabled": true,
+      "createdAtMs": 1774440327002,
+      "updatedAtMs": 1774440327002,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 7 * * *",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "请汇报电子罗盘项目在昨晚 23:00 到今天 07:00 之间的工作进度。要求：1）只写真实推进结果；2）优先给证据（文件、提交、产出、页面）；3）没有进展就明确写无新增进展；4）格式：当前目标 / 本次实际产出 / 证据 / 当前阻塞 / 今天第一步。",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "bestEffort": true
+      },
+      "state": {
+        "nextRunAtMs": 1774479600000
+      }
+    },
+    {
+      "id": "f3e8d515-634b-4a9d-90de-d783ee55e646",
+      "agentId": "ecompass",
+      "name": "ecompass-hourly-day-report",
+      "description": "每天 09:00 到 19:00 每小时汇报一次电子罗盘项目推进情况",
+      "enabled": true,
+      "createdAtMs": 1774440327418,
+      "updatedAtMs": 1774440327418,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9-19 * * *",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "请汇报电子罗盘项目当前小时的推进情况。要求：1）只写真实推进结果；2）优先给证据（文件、提交、页面、结构变化）；3）如果这一小时没有实质推进，就明确写无新增实质进展；4）格式：当前目标 / 本小时实际产出 / 证据 / 当前阻塞 / 下一小时动作。",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "feishu",
+        "to": "ou_2369d90c137e41169ecf225ba3a7e356",
+        "bestEffort": true
+      },
+      "state": {
+        "nextRunAtMs": 1774486800000
+      }
+    }
+  ]
+}

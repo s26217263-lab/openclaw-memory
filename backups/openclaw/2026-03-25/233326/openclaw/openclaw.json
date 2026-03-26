@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.23-2",
+    "lastTouchedAt": "2026-03-25T14:07:38.325Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-24T13:36:26.400Z",
+    "lastRunVersion": "2026.3.23-2",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "openai-codex:default": {
+        "provider": "openai-codex",
+        "mode": "oauth"
+      },
+      "minimax:cn": {
+        "provider": "minimax",
+        "mode": "api_key"
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "minimax": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "api": "anthropic-messages",
+        "authHeader": true,
+        "models": [
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax M2.7",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.06,
+              "cacheWrite": 0.375
+            },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai-codex/gpt-5.4",
+        "fallbacks": [
+          "openai-codex/gpt-5.4",
+          "openai-codex/gpt-5.4-mini",
+          "minimax/MiniMax-M2.7"
+        ]
+      },
+      "models": {
+        "openai-codex/gpt-5.4": {},
+        "openai-codex/gpt-5.4-mini": {},
+        "minimax/MiniMax-M2.7": {
+          "alias": "Minimax"
+        }
+      },
+      "workspace": "/Users/palpet/.openclaw/workspace",
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "maxConcurrent": 2,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "ops",
+        "name": "ops",
+        "workspace": "/Users/palpet/.openclaw/workspace",
+        "agentDir": "/Users/palpet/.openclaw/agents/ops/agent",
+        "model": "openai-codex/gpt-5.4"
+      },
+      {
+        "id": "ecompass",
+        "name": "ecompass",
+        "workspace": "/Users/palpet/.openclaw/workspace",
+        "agentDir": "/Users/palpet/.openclaw/agents/ecompass/agent",
+        "model": "minimax/MiniMax-M2.7",
+        "identity": {
+          "name": "ecompass CEO",
+          "theme": "CEO代理：少打扰，多推进；少空话，多证据；少请示，多负责。",
+          "emoji": "🧭"
+        }
+      }
+    ]
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "appId": "cli_a92643edde78dcc7",
+      "appSecret": "b1tSC30wlIJUFtjCU2aludP6nTkFRUHA",
+      "connectionMode": "websocket",
+      "domain": "feishu",
+      "groupPolicy": "allowlist",
+      "groups": {
+        "oc_074cb1631c4e9dfc26e486fd17c7d32c": {
+          "requireMention": false,
+          "agentId": "ops"
+        },
+        "oc_a842b58b8108e7b3b44304e145c1b34d": {
+          "agentId": "ecompass",
+          "requireMention": false
+        }
+      },
+      "tools": {
+        "doc": false
+      },
+      "groupAllowFrom": [
+        "oc_074cb1631c4e9dfc26e486fd17c7d32c",
+        "oc_a842b58b8108e7b3b44304e145c1b34d"
+      ]
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "4ce285a836458029ef7e8775c14f0a8e1dc9a72415feaaa7"
+    },
+    "channelHealthCheckMinutes": 15
+  },
+  "plugins": {
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
+    }
+  }
+}

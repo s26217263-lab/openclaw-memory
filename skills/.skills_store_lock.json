@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "feishu": {
+      "name": "Feishu",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=feishu",
+      "source": "skillhub",
+      "version": "1.0.5"
+    }
+  }
+}
