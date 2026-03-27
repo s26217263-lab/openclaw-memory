@@ -1,0 +1,11 @@
+{
+  "active_model": "openai-codex/gpt-5.4",
+  "primary_available": false,
+  "fallback_start": null,
+  "last_check": "2026-03-27T01:54:19.739122+00:00",
+  "last_check_result": "forbidden",
+  "last_switch": null,
+  "switch_reason": null,
+  "last_known_primary_ok": true,
+  "last_updated": "2026-03-27T01:55:23.063372+00:00"
+}

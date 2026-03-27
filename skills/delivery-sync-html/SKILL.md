@@ -104,8 +104,23 @@ Before saying a delivery is done, verify:
 - desktop copy exists in the target desktop folder
 - project files are organized enough for a human to navigate
 - README points to the right report file
+- the HTML opens in a browser and renders as a human-facing page (not just a file existing on disk)
+- you give the user the exact browser-openable path/URL, not only internal markdown paths
 
 If any of the above is missing, say the delivery is not fully closed yet.
+
+## Hard lesson: markdown is not the final delivery
+
+If the user says they cannot read `.md` files or says the delivery should feel like a PPT / proposal / boss-facing page, do **not** report completion after only generating markdown.
+
+Markdown is internal working material.
+The real delivery is the HTML page the human can open and review.
+
+When in doubt:
+1. finish the content in markdown if needed,
+2. immediately convert/summarize it into the final HTML delivery page,
+3. open the HTML locally and verify it actually renders,
+4. only then report the job as closed.
 
 ## Reference
 
