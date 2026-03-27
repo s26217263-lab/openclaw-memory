@@ -53,3 +53,14 @@ else:
 ## 3. Gateway / 系统状态
 
 如有异常（如 Gateway 不通、OpenClaw 服务断开），在 `logs/` 记录。
+
+---
+
+## 4. 任务静默规则
+
+如果当前没有 `running` task：
+- 不主动发送进度消息
+- 不发送“无新增推进”类反馈
+- 直接静默 / `HEARTBEAT_OK`
+
+只有存在 `running` task、`done` 结果、或 blocker 时，才允许反馈。

@@ -96,6 +96,18 @@ In group chats where you receive every message, be **smart about when to contrib
 
 Participate, don't dominate.
 
+## 任务反馈规则
+
+- 只有在任务实际处于 `running` / `blocked` / `done` 状态变化时才主动反馈
+- 如果没有任务在跑，不要发送进度类消息
+- 不要发送“无新增推进”“当前无变化”之类的占位反馈
+- 反馈必须和真实任务绑定，而不是和心跳绑定
+- 只在以下情况主动发消息：
+  1. 任务开始执行
+  2. 任务有关键进展
+  3. 任务完成并有交付物
+  4. 出现 blocker 需要人拍板
+
 ### 😊 React Like a Human!
 
 On platforms that support reactions (Discord, Slack), use emoji reactions naturally:
