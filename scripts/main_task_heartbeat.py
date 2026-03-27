@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 import json
-import os
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
 WORKSPACE = Path('/Users/palpet/.openclaw/workspace')
-TASKS_DIR = WORKSPACE / 'tasks'
 STATE_DIR = WORKSPACE / 'state'
 CACHE_PATH = STATE_DIR / 'main_heartbeat_cache.json'
 
@@ -31,8 +29,10 @@ def collect_statuses():
     for p in sorted(STATE_DIR.glob('*.status.json')):
         data = safe_load_json(p, {})
         task_id = data.get('id') or data.get('task_id') or p.name.replace('.status.json', '')
+        title = data.get('title') or data.get('task_name') or data.get('objective') or task_id
         items.append({
             'task_id': task_id,
+            'title': title,
             'status': data.get('status', 'unknown'),
             'phase': data.get('phase') or data.get('current_step') or '',
             'updated_at': data.get('updated_at') or '',
@@ -47,12 +47,14 @@ def compute_counts(items):
     running = [x for x in items if x['status'] == 'running']
     blocked = [x for x in items if x['status'] == 'blocked']
     done = [x for x in items if x['status'] == 'done']
-    return running, blocked, done
+    pending = [x for x in items if x['status'] == 'pending']
+    return running, blocked, done, pending
 
 
 def snapshot_map(items):
     return {
         x['task_id']: {
+            'title': x['title'],
             'status': x['status'],
             'phase': x['phase'],
             'updated_at': x['updated_at'],
@@ -86,7 +88,19 @@ def detect_changes(prev, curr):
     return changes, evidence_updates, blocker_updates
 
 
-def build_report(running, blocked, done, changes, evidence_updates, blocker_updates):
+def format_task_lines(label, items, limit=5):
+    if not items:
+        return f'{label}：无'
+    lines = [f'{label}：']
+    for item in items[:limit]:
+        phase = f" / {item['phase']}" if item.get('phase') else ''
+        lines.append(f"- {item['task_id']}{phase} — {item['title']}")
+    if len(items) > limit:
+        lines.append(f"- 其余 {len(items)-limit} 个未展开")
+    return '\n'.join(lines)
+
+
+def build_report(running, blocked, done, pending, changes, evidence_updates, blocker_updates):
     result_lines = []
     if changes:
         result_lines.append(f"本轮推进了 {len(changes)} 个任务")
@@ -119,9 +133,12 @@ def build_report(running, blocked, done, changes, evidence_updates, blocker_upda
     report = (
         f"【main 心跳 {ts_human()}】\n\n"
         f"结果：{result_lines[0]}\n" + ("\n".join(result_lines[1:]) if len(result_lines) > 1 else '') + "\n"
-        f"状态：RUNNING {len(running)} / BLOCKED {len(blocked)} / DONE {len(done)}\n"
-        f"证据：" + ("\n" + "\n".join(evidence_lines) if evidence_lines else '无') + "\n"
-        f"阻塞：" + ("\n" + "\n".join(blocker_lines) if blocker_lines else '无')
+        f"状态：RUNNING {len(running)} / BLOCKED {len(blocked)} / DONE {len(done)} / PENDING {len(pending)}\n"
+        f"{format_task_lines('RUNNING 明细', running)}\n"
+        f"{format_task_lines('BLOCKED 明细', blocked)}\n"
+        f"{format_task_lines('DONE 明细', done)}\n"
+        f"证据：\n" + "\n".join(evidence_lines) + "\n"
+        f"阻塞：\n" + "\n".join(blocker_lines)
     )
     return report.strip() + "\n"
 
@@ -129,7 +146,7 @@ def build_report(running, blocked, done, changes, evidence_updates, blocker_upda
 def main():
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     items = collect_statuses()
-    running, blocked, done = compute_counts(items)
+    running, blocked, done, pending = compute_counts(items)
 
     if not running:
         print('NO_RUNNING_TASKS')
@@ -142,7 +159,7 @@ def main():
     prev_tasks = prev.get('tasks', {}) if isinstance(prev, dict) else {}
     curr_tasks = snapshot_map(items)
     changes, evidence_updates, blocker_updates = detect_changes(prev_tasks, curr_tasks)
-    report = build_report(running, blocked, done, changes, evidence_updates, blocker_updates)
+    report = build_report(running, blocked, done, pending, changes, evidence_updates, blocker_updates)
     print(report)
     with open(CACHE_PATH, 'w', encoding='utf-8') as f:
         json.dump({'updated_at': ts_human(), 'tasks': curr_tasks}, f, ensure_ascii=False, indent=2)
