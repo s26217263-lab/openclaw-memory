@@ -1,0 +1,8 @@
+backups/openclaw/
+*.jsonl
+agents/*/sessions/
+agents/*/memory/
+ecompass
+memory
+*.log
+*.err.log
