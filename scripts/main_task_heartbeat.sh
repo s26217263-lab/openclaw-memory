@@ -24,4 +24,4 @@ if [[ -z "${REPORT// }" ]]; then
   exit 0
 fi
 
-"$OPENCLAW_BIN" message send --channel feishu --message "$REPORT" >> "$LOG_FILE" 2>&1 || true
+"$OPENCLAW_BIN" message send --channel feishu --target "user:ou_2369d90c137e41169ecf225ba3a7e356" --message "$REPORT" >> "$LOG_FILE" 2>&1 || true
