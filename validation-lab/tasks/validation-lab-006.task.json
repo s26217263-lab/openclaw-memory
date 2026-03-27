@@ -1,0 +1,9 @@
+{
+  "task_id": "validation-lab-006",
+  "task_name": "round-001 骨架落地",
+  "goal": "建立第一轮验证目录与标准文件框架。",
+  "output_type": "文档/配置",
+  "deadline": "2026-03-27T19:00:00+08:00",
+  "notes": "由 validation-lab 部署任务拆分得到",
+  "created_at": "2026-03-27T18:14:54+08:00"
+}

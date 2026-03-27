@@ -1,0 +1,9 @@
+{
+  "task_id": "validation-lab-003",
+  "task_name": "agent 身份与目录骨架落地",
+  "goal": "确认 validation-lab 身份、目录结构、角色定位文件与基础说明一致。",
+  "output_type": "文档/配置",
+  "deadline": "2026-03-27T19:00:00+08:00",
+  "notes": "由 validation-lab 部署任务拆分得到",
+  "created_at": "2026-03-27T18:14:54+08:00"
+}

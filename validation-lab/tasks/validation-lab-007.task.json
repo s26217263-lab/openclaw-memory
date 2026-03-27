@@ -1,0 +1,9 @@
+{
+  "task_id": "validation-lab-007",
+  "task_name": "HTML 汇报页与使用说明",
+  "goal": "生成一份可汇报、可直接阅读的 HTML 部署成果与使用说明页。",
+  "output_type": "文档/配置",
+  "deadline": "2026-03-27T19:00:00+08:00",
+  "notes": "由 validation-lab 部署任务拆分得到",
+  "created_at": "2026-03-27T18:14:54+08:00"
+}

@@ -1,0 +1,37 @@
+{
+  "task_id": "validation-lab-006",
+  "task_name": "round-001 骨架落地",
+  "current_step": "intake",
+  "status": "running",
+  "artifact": "",
+  "artifact_path": "",
+  "updated_at": "2026-03-27T18:14:54+08:00",
+  "deadline": "2026-03-27T19:00:00+08:00",
+  "blocker": "无",
+  "next_step": "outlining",
+  "retry_count": 0,
+  "human_inbox": false,
+  "steps": {
+    "intake": {
+      "status": "pending",
+      "artifact": ""
+    },
+    "outlining": {
+      "status": "pending",
+      "artifact": ""
+    },
+    "drafting": {
+      "status": "pending",
+      "artifact": ""
+    },
+    "editing": {
+      "status": "pending",
+      "artifact": ""
+    },
+    "storing": {
+      "status": "pending",
+      "artifact": ""
+    }
+  },
+  "runs": []
+}

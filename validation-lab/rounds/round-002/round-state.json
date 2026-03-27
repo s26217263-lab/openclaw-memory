@@ -1,0 +1,10 @@
+{
+  "round_id": "round-002",
+  "project": "validation-lab",
+  "status": "done",
+  "current_stage": "done",
+  "inputs_ready": true,
+  "versions": ["A", "B"],
+  "decision": "iterate",
+  "updated_at": "2026-03-27T22:10:00+08:00"
+}

@@ -1,0 +1,9 @@
+{
+  "task_id": "validation-lab-001",
+  "task_name": "市场验证实验室 / 部署收口与HTML交付",
+  "goal": "按既定方案完成 validation-lab agent 的部署收口：确认群绑定与免@模式目标、补齐输入输出模板与round机制骨架、形成部署成果与使用说明 HTML 页面。",
+  "output_type": "HTML + 配置/结构",
+  "deadline": "2026-03-27T18:00:00+08:00",
+  "notes": "目标是在18:00前交付可汇报、可使用的部署说明 HTML，并把该 agent 放入正式任务池启动。",
+  "created_at": "2026-03-27T17:41:50+08:00"
+}

@@ -1,0 +1,9 @@
+{
+  "task_id": "validation-lab-004",
+  "task_name": "输入模板落地",
+  "goal": "产出市场验证任务输入模板，供主agent或人工提交验证任务。",
+  "output_type": "文档/配置",
+  "deadline": "2026-03-27T19:00:00+08:00",
+  "notes": "由 validation-lab 部署任务拆分得到",
+  "created_at": "2026-03-27T18:14:54+08:00"
+}

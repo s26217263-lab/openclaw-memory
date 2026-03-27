@@ -1,0 +1,10 @@
+{
+  "round_id": "round-001",
+  "project": "validation-lab",
+  "status": "pending",
+  "current_stage": "brief",
+  "inputs_ready": false,
+  "versions": ["A", "B", "C"],
+  "decision": null,
+  "updated_at": "2026-03-27T21:30:00+08:00"
+}
