@@ -6,3 +6,5 @@ ecompass
 memory
 *.log
 *.err.log
+state/
+!validation-lab/state/

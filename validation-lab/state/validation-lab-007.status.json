@@ -2,10 +2,10 @@
   "task_id": "validation-lab-007",
   "task_name": "HTML 汇报页与使用说明",
   "current_step": "intake",
-  "status": "running",
+  "status": "done",
   "artifact": "",
   "artifact_path": "",
-  "updated_at": "2026-03-27T18:14:54+08:00",
+  "updated_at": "2026-03-28T00:47:49+08:00",
   "deadline": "2026-03-27T19:00:00+08:00",
   "blocker": "无",
   "next_step": "outlining",
@@ -33,5 +33,9 @@
       "artifact": ""
     }
   },
-  "runs": []
+  "runs": [],
+  "phase": "done",
+  "result": "round-002 real demo completed with iterate decision",
+  "evidence": [],
+  "blockers": []
 }

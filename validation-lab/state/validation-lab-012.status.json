@@ -1,0 +1,14 @@
+{
+  "id": "validation-lab-012",
+  "project": "validation-lab",
+  "status": "done",
+  "phase": "done",
+  "objective": "",
+  "deliverable": "",
+  "deadline_intent": "tonight",
+  "result": "gateway restart resolved; no deeper config fix needed",
+  "evidence": [],
+  "blockers": [],
+  "started_at": "2026-03-28T00:45:07+08:00",
+  "updated_at": "2026-03-28T00:47:49+08:00"
+}
