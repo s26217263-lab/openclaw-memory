@@ -1,40 +1,43 @@
 # HEARTBEAT.md — 模型自动切换 + 每日记忆
 
 ## 心跳频率
-每 ~30 分钟一次。每次心跳跑以下检查。
+每 ~30 分钟一次。
 
 ---
 
 ## 1. 模型状态检查（最重要）
 
-运行：
+### 状态文件
+`/Users/palpet/.openclaw/workspace/state/gpt_model_state.json`
+
+### 读状态（每次心跳必须做）
 ```bash
-python3 /Users/palpet/.openclaw/workspace/scripts/model_monitor.py
+python3 -c "
+import json, time
+try:
+    with open('/Users/palpet/.openclaw/workspace/state/gpt_model_state.json') as f:
+        d = json.load(f)
+except: d = {}
+fallback_until = d.get('fallback_until', 0)
+now = int(time.time())
+if fallback_until > 0 and now < fallback_until:
+    remaining = fallback_until - now
+    print(f'RECOMMEND_M2.7: Fallback窗口，剩余{remaining}秒')
+elif fallback_until > 0:
+    print('Fallback窗口已到期，应恢复GPT-5.4')
+else:
+    print('GPT-5.4可用')
+"
 ```
 
-### 工作原理
+### 判断逻辑
+- `fallback_until == 0` 或已到期 → **GPT-5.4 可用**
+- `fallback_until > now` → **应使用 M2.7**
 
-**状态文件：** `state/model_state.json`
-
-**逻辑：**
-- `active_model`：当前优先使用的模型
-- 正常：一直用 `openai-codex/gpt-5.4`
-- 触发切换 → 变成 `minimax/MiniMax-M2.7`，记录 `fallback_start` 时间
-- 在 MiniMax 上每 2 小时重试一次（自动切回 gpt-5.4 如果恢复了）
-
-**触发 fallback 的方式：**
-- 手动：对这个 agent 说"切换到 MiniMax"
-- 自动：当 gpt-5.4 返回 429 时（rate limit），自动切换
-
-**切回的方式：**
-- 自动：2 小时后自动尝试切回 gpt-5.4（如果还限流，下一次 429 继续触发切换）
-- 手动：对这个 agent 说"切换回 GPT"
-
-**当前状态查询：**
-直接看 `state/model_state.json`：
-```bash
-cat /Users/palpet/.openclaw/workspace/state/model_state.json
-```
+### 怎么做模型切换
+用 `session_status` 工具：
+- 切到 M2.7：`session_status(model="minimax/MiniMax-M2.7")`
+- 切到 GPT-5.4：`session_status(model="openai-codex/gpt-5.4")`
 
 ---
 
