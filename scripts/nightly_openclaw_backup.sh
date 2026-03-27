@@ -80,7 +80,7 @@ import os, sys, base64, json, urllib.request, urllib.error
 
 backup_dir = sys.argv[1]
 repo = "s26217263-lab/openclaw-memory"
-branch = "main"
+branch = "backup-main-clean"
 token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
 
 def gh(method, path, data=None):
@@ -103,8 +103,8 @@ if not ref:
     print("  failed to get ref"); sys.exit(1)
 sha = ref["object"]["sha"]
 
-# Collect files (essential only, skip large dirs)
-skip = {".git", "workspace", "skills", "_disabled", "node_modules", "__pycache__"}
+# Collect files (essential only, skip large dirs and anything with secrets)
+skip = {".git", "workspace", "skills", "_disabled", "node_modules", "__pycache__", "sessions", "memory", ".jsonl"}
 files = []
 for root, dirs, filenames in os.walk(backup_dir):
     dirs[:] = [d for d in dirs if d not in skip]
