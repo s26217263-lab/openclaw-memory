@@ -87,6 +87,36 @@ OPENAI_API_KEY="sk-cp-XXX" bash "$WORKSPACE/tasks/ecompass_heartbeat.sh"
 launchctl load ~/Library/LaunchAgents/com.openclaw.ecompass-heartbeat.plist
 ```
 
+## Validation rule (mandatory)
+
+Never mark a task `done` only because `deliverable_v1.md` exists.
+
+The automation must validate deliverables before advancing out of `editing`.
+At minimum, reject deliverables when they contain any of:
+
+- `LLM ERROR`
+- `returned non-zero exit status`
+- `<think>`
+- obviously incomplete / too short content
+- broken structure that does not match a real deliverable
+
+If validation fails:
+- do **not** advance to `done`
+- set status to something like `needs_revision` or `blocked`
+- write the failure reason into `blocker`
+- set `human_inbox = true`
+- append a `validation_failed` run entry
+
+## Human-facing delivery rule
+
+For boss-facing or review-facing tasks, markdown in `artifacts/` is not enough.
+If the human expects a visible delivery page, produce a final HTML report page and verify it opens in the browser.
+
+For ecompass specifically, if the task is a Kickstarter report / delivery round, also verify:
+- the HTML report exists
+- the dashboard reflects the updated task states
+- the dashboard is actually reading the correct task ids and showing current data
+
 ## Key Troubleshooting
 
 ### Symptom: "WARNING: OPENAI_API_KEY not set"
@@ -97,9 +127,17 @@ launchctl load ~/Library/LaunchAgents/com.openclaw.ecompass-heartbeat.plist
 **Cause**: no task has status "running" — all are "pending" or "done".
 **Fix**: Create a new task with `task_runner.py create` to put something in the queue.
 
+### Symptom: LLM error file gets marked done
+**Cause**: state machine only checked whether a file existed, not whether the deliverable was valid.
+**Fix**: add mandatory deliverable validation before `editing -> storing`; on failure move task to `needs_revision` / `human_inbox` instead of `done`.
+
 ### Symptom: LLM generates but script fails to advance step
 **Cause**: advance_step() called after artifact already exists (step already done).
 **Fix**: check `current_step` before advancing; use skip-exists logic.
+
+### Symptom: dashboard still shows old counts or no tasks
+**Cause**: dashboard parsing logic or serving logic is stale / wrong, or it is reading the wrong task id pattern.
+**Fix**: verify the dashboard process, verify task-id parsing, and open the actual page in a browser before claiming visibility.
 
 ### Symptom: Feishu report not sending
 **Cause**: openclaw message tool requires --channel and --target flags.
