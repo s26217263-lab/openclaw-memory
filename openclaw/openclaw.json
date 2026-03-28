@@ -162,7 +162,7 @@
         }
       },
       "tools": {
-        "doc": false
+        "doc": true
       },
       "groupAllowFrom": [
         "oc_074cb1631c4e9dfc26e486fd17c7d32c",

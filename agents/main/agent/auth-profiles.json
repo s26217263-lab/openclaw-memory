@@ -28,13 +28,17 @@
   },
   "usageStats": {
     "openai-codex:default": {
-      "errorCount": 0,
-      "lastUsed": 1774636899066,
-      "lastFailureAt": 1774630813483
+      "errorCount": 1,
+      "lastUsed": 1774695331712,
+      "lastFailureAt": 1774723377063,
+      "cooldownUntil": 1774723437063,
+      "failureCounts": {
+        "rate_limit": 1
+      }
     },
     "minimax:cn": {
       "errorCount": 0,
-      "lastUsed": 1774637894254
+      "lastUsed": 1774724362324
     },
     "minimax-portal:default": {
       "errorCount": 0,
