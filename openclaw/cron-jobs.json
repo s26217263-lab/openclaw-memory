@@ -8,7 +8,7 @@
       "description": "OpenClaw本地watchdog：检测网关健康，fail一次重试，fail两次自动restart",
       "enabled": true,
       "createdAtMs": 1774359769742,
-      "updatedAtMs": 1774724362939,
+      "updatedAtMs": 1774810789294,
       "schedule": {
         "kind": "every",
         "everyMs": 300000,
@@ -27,13 +27,13 @@
         "channel": "last"
       },
       "state": {
-        "lastRunAtMs": 1774724347175,
+        "lastRunAtMs": 1774810781722,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 15764,
+        "lastDurationMs": 7572,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1774724647175,
+        "nextRunAtMs": 1774811081722,
         "lastDelivered": false
       },
       "failureAlert": {
@@ -85,7 +85,7 @@
       "description": "每日 7:00 / 12:00 / 18:00 / 22:00 发送 House check + doc watch 检测报告；其他时间静默",
       "enabled": true,
       "createdAtMs": 1774431929114,
-      "updatedAtMs": 1774706580012,
+      "updatedAtMs": 1774793041055,
       "schedule": {
         "kind": "cron",
         "expr": "0 7,12,18,22 * * *",
@@ -106,15 +106,14 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774738800000,
-        "lastRunAtMs": 1774706400005,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 180007,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 1,
-        "lastError": "cron: job execution timed out",
-        "lastErrorReason": "timeout"
+        "nextRunAtMs": 1774825200000,
+        "lastRunAtMs": 1774792940240,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 100815,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": true
       }
     },
     {
@@ -124,7 +123,7 @@
       "description": "每天 07:00 汇报前一晚 23:00 到 07:00 的电子罗盘项目推进情况",
       "enabled": true,
       "createdAtMs": 1774440327002,
-      "updatedAtMs": 1774652559322,
+      "updatedAtMs": 1774739022344,
       "schedule": {
         "kind": "cron",
         "expr": "0 7 * * *",
@@ -145,11 +144,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774738800000,
-        "lastRunAtMs": 1774652477742,
+        "nextRunAtMs": 1774825200000,
+        "lastRunAtMs": 1774738963104,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 81580,
+        "lastDurationMs": 59240,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0
@@ -162,7 +161,7 @@
       "description": "每天 09:00 到 19:00 每小时汇报一次电子罗盘项目推进情况",
       "enabled": true,
       "createdAtMs": 1774440327418,
-      "updatedAtMs": 1774695780016,
+      "updatedAtMs": 1774782180014,
       "schedule": {
         "kind": "cron",
         "expr": "0 9-19 * * *",
@@ -183,11 +182,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774746000000,
-        "lastRunAtMs": 1774695600002,
+        "nextRunAtMs": 1774832400000,
+        "lastRunAtMs": 1774782000005,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 180014,
+        "lastDurationMs": 180009,
         "lastDeliveryStatus": "unknown",
         "consecutiveErrors": 1,
         "lastError": "cron: job execution timed out",
@@ -237,7 +236,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1774615873462,
-      "updatedAtMs": 1774695842105,
+      "updatedAtMs": 1774782276498,
       "schedule": {
         "kind": "cron",
         "expr": "0 9-19 * * *",
@@ -258,11 +257,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774746000000,
-        "lastRunAtMs": 1774695780016,
+        "nextRunAtMs": 1774832400000,
+        "lastRunAtMs": 1774782180014,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 62089,
+        "lastDurationMs": 96484,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0
@@ -275,7 +274,7 @@
       "description": "Daily OpenClaw security audit",
       "enabled": true,
       "createdAtMs": 1774628848327,
-      "updatedAtMs": 1774715311685,
+      "updatedAtMs": 1774801694061,
       "schedule": {
         "kind": "every",
         "everyMs": 86400000,
@@ -293,11 +292,11 @@
         "channel": "last"
       },
       "state": {
-        "nextRunAtMs": 1774801648332,
-        "lastRunAtMs": 1774715248332,
+        "nextRunAtMs": 1774888048336,
+        "lastRunAtMs": 1774801648336,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 63353,
+        "lastDurationMs": 45725,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0
