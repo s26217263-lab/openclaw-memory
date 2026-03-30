@@ -24,8 +24,7 @@
             "cacheWrite": 0.375
           },
           "contextWindow": 204800,
-          "maxTokens": 131072,
-          "api": "anthropic-messages"
+          "maxTokens": 131072
         },
         {
           "id": "MiniMax-VL-01",

@@ -5,6 +5,8 @@
 
 set -e
 
+export PATH="/opt/homebrew/bin:$PATH"
+
 LOG="/tmp/openclaw-watchdog.log"
 STATE_DIR="/tmp/openclaw-watchdog"
 mkdir -p "$STATE_DIR"
