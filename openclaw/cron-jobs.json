@@ -8,7 +8,7 @@
       "description": "OpenClaw本地watchdog：检测网关健康，fail一次重试，fail两次自动restart",
       "enabled": true,
       "createdAtMs": 1774359769742,
-      "updatedAtMs": 1774897086818,
+      "updatedAtMs": 1774961434155,
       "schedule": {
         "kind": "every",
         "everyMs": 300000,
@@ -27,14 +27,16 @@
         "channel": "last"
       },
       "state": {
-        "lastRunAtMs": 1774897046917,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 39901,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "nextRunAtMs": 1774897346917,
-        "lastDelivered": false
+        "lastRunAtMs": 1774961399616,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 34539,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 5,
+        "nextRunAtMs": 1774965034155,
+        "lastErrorReason": "rate_limit",
+        "lastFailureAlertAtMs": 1774961434156,
+        "lastError": "FallbackSummaryError: All models failed (2): minimax/MiniMax-M2.7: Live session model switch requested: openai-codex/gpt-5.4 (unknown) | openai-codex/gpt-5.4: ⚠️ You have hit your ChatGPT usage limit (plus plan). Try again in ~3669 min. (rate_limit)"
       },
       "failureAlert": {
         "after": 1,
@@ -85,7 +87,7 @@
       "description": "每日 7:00 / 12:00 / 18:00 / 22:00 发送 House check + doc watch 检测报告；其他时间静默",
       "enabled": true,
       "createdAtMs": 1774431929114,
-      "updatedAtMs": 1774879527015,
+      "updatedAtMs": 1774951380014,
       "schedule": {
         "kind": "cron",
         "expr": "0 7,12,18,22 * * *",
@@ -106,14 +108,15 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774911600000,
-        "lastRunAtMs": 1774879359998,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 167017,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": true
+        "nextRunAtMs": 1774965600000,
+        "lastRunAtMs": 1774951200005,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 180009,
+        "lastDeliveryStatus": "unknown",
+        "consecutiveErrors": 3,
+        "lastErrorReason": "timeout",
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -123,7 +126,7 @@
       "description": "每天 07:00 汇报前一晚 23:00 到 07:00 的电子罗盘项目推进情况",
       "enabled": true,
       "createdAtMs": 1774440327002,
-      "updatedAtMs": 1774825503863,
+      "updatedAtMs": 1774911876521,
       "schedule": {
         "kind": "cron",
         "expr": "0 7 * * *",
@@ -144,11 +147,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774911600000,
-        "lastRunAtMs": 1774825380010,
+        "nextRunAtMs": 1774998000000,
+        "lastRunAtMs": 1774911780015,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 123853,
+        "lastDurationMs": 96506,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0
@@ -161,7 +164,7 @@
       "description": "每天 09:00 到 19:00 每小时汇报一次电子罗盘项目推进情况",
       "enabled": true,
       "createdAtMs": 1774440327418,
-      "updatedAtMs": 1774868580038,
+      "updatedAtMs": 1774956798562,
       "schedule": {
         "kind": "cron",
         "expr": "0 9-19 * * *",
@@ -182,15 +185,14 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774918800000,
-        "lastRunAtMs": 1774868400005,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 180033,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 5,
-        "lastErrorReason": "timeout",
-        "lastError": "cron: job execution timed out"
+        "nextRunAtMs": 1775005200000,
+        "lastRunAtMs": 1774956652013,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 146549,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": true
       }
     },
     {
@@ -236,7 +238,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1774615873462,
-      "updatedAtMs": 1774868682413,
+      "updatedAtMs": 1774956924211,
       "schedule": {
         "kind": "cron",
         "expr": "0 9-19 * * *",
@@ -257,14 +259,14 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1774918800000,
-        "lastRunAtMs": 1774868580038,
+        "nextRunAtMs": 1775005200000,
+        "lastRunAtMs": 1774956834056,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 102375,
-        "lastDelivered": true,
+        "lastDurationMs": 90155,
         "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0
+        "consecutiveErrors": 0,
+        "lastDelivered": true
       }
     },
     {

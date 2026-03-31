@@ -29,16 +29,18 @@
   "usageStats": {
     "openai-codex:default": {
       "errorCount": 1,
-      "lastUsed": 1774836242496,
-      "lastFailureAt": 1774896430957,
-      "cooldownUntil": 1774896490957,
+      "lastUsed": 1774960676883,
+      "lastFailureAt": 1774961434145,
+      "cooldownUntil": 1774961464145,
       "failureCounts": {
         "rate_limit": 1
-      }
+      },
+      "cooldownReason": "rate_limit",
+      "cooldownModel": "gpt-5.4"
     },
     "minimax:cn": {
       "errorCount": 0,
-      "lastUsed": 1774897086305
+      "lastUsed": 1774963618767
     },
     "minimax-portal:default": {
       "errorCount": 0,
