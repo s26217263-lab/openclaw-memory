@@ -1,0 +1,14 @@
+{
+  "lastChecks": {
+    "email": null,
+    "calendar": null,
+    "weather": null,
+    "model": 1774899468,
+    "gateway": 1774834922,
+    "dailyMemory": 1775150220
+  },
+  "lastHeartbeat": 1774906383,
+  "lastModelSwitch": 1774886753,
+  "modelSwitchReason": "Fallback window expired, restored GPT-5.4",
+  "lastDailyMemory": "2026-03-31"
+}
