@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ecompass Kickstarter Round 1 Delivery</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,0.08);
+      --panel-strong: rgba(255,255,255,0.12);
+      --text: #f6f7fb;
+      --muted: #b9c0d0;
+      --line: rgba(255,255,255,0.12);
+      --accent: #8fb3ff;
+      --green: #74d3a8;
+      --amber: #f2c078;
+      --shadow: 0 20px 60px rgba(0,0,0,0.28);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(120,150,255,0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(242,192,120,0.12), transparent 28%),
+        linear-gradient(180deg, #101730 0%, #0b1020 100%);
+      color: var(--text);
+    }
+    .shell {
+      width: min(1200px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 80px;
+    }
+    .hero {
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(143,179,255,0.16);
+      color: #dce7ff;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+    .sub {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .meta-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+    }
+    .meta-card .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .meta-card .v { font-size: 22px; font-weight: 700; margin-top: 8px; }
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .toc {
+      position: sticky;
+      top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .toc h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .toc a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 12px;
+      margin: 6px 0;
+      border-radius: 12px;
+      background: transparent;
+      transition: .18s ease;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .toc a:hover { background: rgba(255,255,255,0.08); }
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+    .slide {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.05));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .slide-head {
+      padding: 22px 24px 0;
+    }
+    .slide-tag {
+      display: inline-block;
+      font-size: 12px;
+      color: #d9e4ff;
+      background: rgba(143,179,255,0.14);
+      border: 1px solid rgba(143,179,255,0.22);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin-bottom: 14px;
+    }
+    .slide h2 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 38px);
+      letter-spacing: -0.03em;
+    }
+    .slide-body {
+      padding: 18px 24px 26px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      padding: 16px 18px;
+    }
+    .panel h4 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .panel ul { margin: 0; padding-left: 18px; }
+    .panel li { margin: 8px 0; }
+    .quote {
+      border-left: 3px solid var(--amber);
+      margin: 18px 0 0;
+      padding: 10px 0 10px 16px;
+      color: #fff1d9;
+      font-size: 17px;
+    }
+    .prompt {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(143,179,255,0.2);
+      background: rgba(10,16,36,0.55);
+      color: #dbe7ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .pill-row {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+    }
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: #dfe6f6;
+      font-size: 13px;
+    }
+    .footer {
+      margin-top: 18px;
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: relative; top: auto; }
+      .meta-grid, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="eyebrow">ecompass · Kickstarter Round 1 Delivery</div>
+      <h1>Kickstarter 第一轮交付<br>HTML 最终汇报版</h1>
+      <div class="sub">
+        这是给人直接看的最终交付页，不是给 agent 看的 md 文件。它把 Why Now 三个场景资产、Kickstarter 页面骨架 / 信息架构、以及首版汇报文案整合成一个可浏览、可汇报、可直接打开的单页 HTML。
+      </div>
+      <div class="meta-grid">
+        <div class="meta-card"><div class="k">Delivery Scope</div><div class="v">004–008</div></div>
+        <div class="meta-card"><div class="k">Format</div><div class="v">Single HTML</div></div>
+        <div class="meta-card"><div class="k">Status</div><div class="v" style="color: var(--green);">Done</div></div>
+        <div class="meta-card"><div class="k">Updated</div><div class="v">2026-03-27</div></div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="toc">
+        <h3>目录导航</h3>
+        <a href="#overview">00 · 总览</a>
+        <a href="#morning">04 · Why Now Morning</a>
+        <a href="#work">05 · Why Now Work</a>
+        <a href="#evening">06 · Why Now Evening</a>
+        <a href="#ia">07 · Kickstarter 页面骨架 / IA</a>
+        <a href="#copy">08 · Kickstarter 首版汇报文案</a>
+        <a href="#close">09 · 结论 / 下一步</a>
+      </aside>
+
+      <main class="content">
+        <section class="slide" id="overview">
+          <div class="slide-head">
+            <div class="slide-tag">00 · Overview</div>
+            <h2>这一轮交付到底交了什么</h2>
+          </div>
+          <div class="slide-body">
+            这一轮的目标，是补齐 ecompass Kickstarter 第一轮交付中最关键的五块内容：三张 Why Now 场景资产说明、页面骨架 / 信息架构、以及首版汇报文案。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>已交付内容</h4>
+                <ul>
+                  <li>Morning 场景资产说明</li>
+                  <li>Work 场景资产说明</li>
+                  <li>Evening 场景资产说明</li>
+                  <li>Kickstarter 页面骨架 / 信息架构</li>
+                  <li>Kickstarter 首版汇报文案</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>本轮统一原则</h4>
+                <ul>
+                  <li>不玄学，不伪科学，不夸大承诺</li>
+                  <li>围绕 pause / reset / focus / reflect</li>
+                  <li>强调 tactile object + lightweight digital experience</li>
+                  <li>先让产品成立，再谈包装与传播</li>
+                </ul>
+              </div>
+            </div>
+            <div class="quote">核心判断：ecompass 不该被讲成神秘装置，而该被讲成一个安静、诚实、可触摸的桌面 ritual object。</div>
+          </div>
+        </section>
+
+        <section class="slide" id="morning">
+          <div class="slide-head">
+            <div class="slide-tag">04 · Why Now Morning</div>
+            <h2>Morning — 在一天开始之前，先把自己拿回来</h2>
+          </div>
+          <div class="slide-body">
+            Morning 场景承担的不是“早起自律”叙事，而是把 ecompass 放进一个更真实的清晨空隙：第一条消息、第一份待办、第一段滚动开始之前，用户还有机会决定今天如何开始。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>场景目标</h4>
+                <ul>
+                  <li>让用户理解产品属于一天开始的第一个安静时刻</li>
+                  <li>强调 begin gently / start with intention</li>
+                  <li>建立清晨桌面 ritual 的可信语境</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>视觉关键词</h4>
+                <ul>
+                  <li>soft morning light</li>
+                  <li>clean air</li>
+                  <li>calm beginning</li>
+                  <li>tactile object</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Before the day begins, begin with yourself.</span>
+              <span class="pill">A small morning ritual to pause, reset, and choose how the day starts.</span>
+            </div>
+            <div class="prompt">A calm editorial lifestyle photograph of a brass compass placed on a minimalist wooden desk in soft morning light.
+
+The scene captures the first quiet moment of the day. Natural sunlight enters from a nearby window, casting gentle warm highlights and soft shadows across the desk. The brass compass is the clear focal point, positioned slightly off-center with a tactile, refined, softly aged metallic finish.
+
+Around it are a ceramic cup with tea or coffee, an open notebook with a few handwritten notes, a simple pen, and a folded linen cloth or a lightly textured paper card. The desk feels real and lived-in, but uncluttered. No screens are visible.</div>
+          </div>
+        </section>
+
+        <section class="slide" id="work">
+          <div class="slide-head">
+            <div class="slide-tag">05 · Why Now Work</div>
+            <h2>Work — 不再加压，而是把注意力轻轻拉回来</h2>
+          </div>
+          <div class="slide-body">
+            Work 场景不讲高效神话，也不讲职场炫耀，而是聚焦一个更常见的中段时刻：人已经在桌前，但注意力开始漂移。ecompass 在这里的角色，不是刺激你更卷，而是给你一个 physical reset trigger。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>场景目标</h4>
+                <ul>
+                  <li>说明产品适合进入真实工作桌面</li>
+                  <li>把价值点锚定在 return to focus，而不是 productivity hype</li>
+                  <li>建立 calm work rhythm 的场景说服</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>视觉关键词</h4>
+                <ul>
+                  <li>focus reset</li>
+                  <li>desk presence</li>
+                  <li>quiet concentration</li>
+                  <li>grounded, restrained</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pill-row">
+              <span class="pill">When your attention drifts, return with one touch.</span>
+              <span class="pill">A quiet desk ritual that helps you reset and come back to what matters now.</span>
+            </div>
+            <div class="prompt">An editorial product lifestyle photograph of a brass compass on a modern work desk during the middle of the day.
+
+The desk is clean but actively used: a notebook, a pen, a few paper cards, and subtle traces of work are present. The compass is the visual focal point, placed near the front-middle area of the composition. It feels grounded, tactile, and intentional.
+
+Lighting is natural daylight or soft indirect studio daylight, slightly cooler than a morning scene but still balanced and calm.</div>
+          </div>
+        </section>
+
+        <section class="slide" id="evening">
+          <div class="slide-head">
+            <div class="slide-tag">06 · Why Now Evening</div>
+            <h2>Evening — 给结束一天这件事，一个更轻的入口</h2>
+          </div>
+          <div class="slide-body">
+            Evening 场景讲的不是睡眠、疗愈或神秘感，而是一天收束的动作。工作停下了，心还没收回；外部噪音退下去了，内在噪音才刚刚浮上来。ecompass 在这里扮演的是一个 gentle closing ritual。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>场景目标</h4>
+                <ul>
+                  <li>建立产品在 end-of-day 时刻的现实价值</li>
+                  <li>强调 close the loop / let the day land</li>
+                  <li>避免所有神秘疗愈行业模板感</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>视觉关键词</h4>
+                <ul>
+                  <li>quiet closure</li>
+                  <li>warm twilight</li>
+                  <li>reflective</li>
+                  <li>intimate desk scene</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pill-row">
+              <span class="pill">End the day with a quieter kind of attention.</span>
+              <span class="pill">A simple evening ritual to pause, reflect, and let the day settle.</span>
+            </div>
+            <div class="prompt">A refined editorial lifestyle photograph of a brass compass placed on a desk in the evening, lit by a warm desk lamp and subtle twilight in the background.
+
+The desk feels lived-in but calm: a closed notebook, a ceramic mug, a pen, and a few neatly resting paper cards suggest the end of a day rather than active work. The brass compass is the clear focal point, softly catching warm light with a tactile, elegant metallic finish.
+
+The atmosphere is intimate, quiet, and reflective.</div>
+          </div>
+        </section>
+
+        <section class="slide" id="ia">
+          <div class="slide-head">
+            <div class="slide-tag">07 · Kickstarter IA</div>
+            <h2>Kickstarter 页面骨架 / 信息架构</h2>
+          </div>
+          <div class="slide-body">
+            首版页面的任务，不是讲大故事，而是在最短时间内让支持者理解三件事：这是什么、为什么有意义、为什么值得支持。页面要以体验、场景与真实使用语境为主线，而不是用技术炫耀或神秘包装来偷说服。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>页面主结构</h4>
+                <ul>
+                  <li>Hero</li>
+                  <li>Why Now</li>
+                  <li>What ecompass Is</li>
+                  <li>How It Works</li>
+                  <li>Materials & Form</li>
+                  <li>Experience Flow</li>
+                  <li>Rewards</li>
+                  <li>Timeline / Risks / FAQ / CTA</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>说服路径</h4>
+                <ul>
+                  <li>看见物件 → 理解定位</li>
+                  <li>场景共鸣 → 明白运作</li>
+                  <li>感受到材质价值 → 接受回报结构</li>
+                  <li>建立对风险与节奏的信任</li>
+                </ul>
+              </div>
+            </div>
+            <div class="quote">真正的说服，不来自夸张概念，而来自：产品定义清楚、使用场景可信、执行路径诚实。</div>
+          </div>
+        </section>
+
+        <section class="slide" id="copy">
+          <div class="slide-head">
+            <div class="slide-tag">08 · Kickstarter Copy</div>
+            <h2>Kickstarter 首版汇报文案</h2>
+          </div>
+          <div class="slide-body">
+            这部分提供的是首版汇报级文案，不是最终上线英文定稿。目标是先把产品语言站稳：它是一个 tactile desk ritual object，通过触碰进入一个 lightweight digital experience，帮助用户 pause, reset, focus, reflect。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>推荐标题 / 副标题</h4>
+                <ul>
+                  <li><strong>Title</strong> — ecompass — A Tactile Desk Ritual for Pause, Reset, and Focus</li>
+                  <li><strong>Subtitle</strong> — A thoughtfully designed desk object that connects touch with a lightweight digital experience.</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>核心文案方向</h4>
+                <ul>
+                  <li>不从更多功能开始，而从更少干扰开始</li>
+                  <li>不许诺 transformation，只提供 meaningful pause</li>
+                  <li>把 Why Now 讲成 everyday life 的 texture</li>
+                </ul>
+              </div>
+            </div>
+            <div class="quote">We are not trying to build a louder product. We are trying to build a quieter, more intentional one.</div>
+            <div class="panel" style="margin-top:16px;">
+              <h4>本轮文案覆盖</h4>
+              <ul>
+                <li>Title / Subtitle / Hero Intro</li>
+                <li>Expanded Story</li>
+                <li>Why Now 三场景 copy</li>
+                <li>Rewards 档位说明</li>
+                <li>FAQ</li>
+                <li>Risks & Challenges</li>
+                <li>Timeline</li>
+                <li>Closing CTA</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" id="close">
+          <div class="slide-head">
+            <div class="slide-tag">09 · Close</div>
+            <h2>结论 / 下一步</h2>
+          </div>
+          <div class="slide-body">
+            这一轮交付现在已经从“状态机假完成”修复为“真实内容可浏览交付”。对你来说，最重要的不是去翻 md 文件，而是直接看这个 HTML 页面，然后决定下一步是进入视觉制作、Kickstarter 页面制作，还是继续打磨文案和 reward 结构。
+            <div class="grid-2">
+              <div class="panel">
+                <h4>现在已经有的</h4>
+                <ul>
+                  <li>Why Now 三场景资产说明</li>
+                  <li>Kickstarter 页面 IA</li>
+                  <li>首版汇报文案</li>
+                  <li>dashboard 展示与状态机收口</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h4>建议下一步</h4>
+                <ul>
+                  <li>把 004–006 转成真实视觉图</li>
+                  <li>按 007 搭 Kickstarter 页面结构</li>
+                  <li>基于 008 做英文润色与 campaign 版本化</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="footer">
+      文件路径：<code>/Users/palpet/.openclaw/workspace/ecompass/deliverables/kickstarter_round1_delivery.html</code><br>
+      说明：这是本轮最终给人看的 HTML 交付版，内容源自 004–008 的真实 deliverable，并整理为单页汇报结构。
+    </div>
+  </div>
+</body>
+</html>

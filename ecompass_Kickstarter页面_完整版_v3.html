@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ecompass — A Tactile Desk Ritual for Pause, Reset, and Focus</title>
+  <style>
+    :root {
+      --bg: #0b1020; --bg2: #101730;
+      --panel: rgba(255,255,255,.08);
+      --line: rgba(255,255,255,.13);
+      --text: #f0f4ff;
+      --muted: #9aa5be;
+      --accent: #8fb3ff;
+      --amber: #f2c078;
+      --green: #74d3a8;
+      --shadow: 0 28px 70px rgba(0,0,0,.32);
+      --radius: 26px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      background: radial-gradient(ellipse at top, #162040 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .wrap{width:min(1100px,calc(100vw - 32px));margin:0 auto;padding:0 0 80px}
+
+    /* ── NAV ── */
+    nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:20px 0;margin-bottom:60px;
+      border-bottom:1px solid var(--line);
+    }
+    nav .logo{font-size:18px;font-weight:700;letter-spacing:-.02em}
+    nav .logo span{color:var(--accent)}
+    nav .back{
+      font-size:13px;color:var(--muted);text-decoration:none;
+      padding:8px 14px;border:1px solid var(--line);border-radius:999px;
+    }
+    nav .back:hover{color:var(--text);border-color:var(--accent)}
+
+    /* ── HERO ── */
+    .hero{
+      border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.04));
+      box-shadow:var(--shadow);padding:52px 48px;text-align:center;margin-bottom:32px;
+    }
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 14px;border-radius:999px;
+      background:rgba(143,179,255,.12);border:1px solid rgba(143,179,255,.22);
+      color:#8fb3ff;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:22px;
+    }
+    .hero-badge span{width:6px;height:6px;border-radius:50%;background:#8fb3ff;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+    h1{font-size:clamp(38px,6vw,72px);letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+    .hero-sub{font-size:19px;color:var(--muted);max-width:640px;margin:0 auto 28px;line-height:1.65}
+    .hero-cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn-primary{
+      padding:15px 32px;border-radius:16px;background:var(--accent);color:#0a0c14;
+      font-size:16px;font-weight:700;text-decoration:none;transition:opacity .2s;
+    }
+    .btn-primary:hover{opacity:.88}
+    .btn-ghost{
+      padding:15px 32px;border-radius:16px;border:1px solid var(--line);
+      color:var(--muted);font-size:16px;text-decoration:none;transition:border-color .2s,color .2s;
+    }
+    .btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+    .hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:28px}
+    .meta-pill{
+      padding:6px 14px;border-radius:999px;border:1px solid var(--line);
+      background:rgba(255,255,255,.05);color:var(--muted);font-size:13px;
+    }
+
+    /* ── HERO IMAGE PLACEHOLDER ── */
+    .hero-img{
+      margin:32px auto 0;border-radius:20px;overflow:hidden;
+      border:1px solid var(--line);max-width:860px;
+    }
+    .img-placeholder{
+      background:linear-gradient(135deg,#111828,#0e1520);
+      aspect-ratio:16/7;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:14px;
+      color:var(--muted);font-size:14px;text-align:center;padding:32px;
+    }
+    .img-placeholder .big{font-size:48px}
+    .img-placeholder p{margin:0;max-width:400px;line-height:1.6}
+    .img-specs{
+      margin-top:10px;padding:10px 16px;border-radius:12px;
+      background:rgba(138,180,255,.06);border:1px solid rgba(138,180,255,.14);
+      font-size:12px;color:#8fb3ff;font-family:ui-monospace,monospace;
+    }
+
+    /* ── WHY NOW ── */
+    .section{margin-bottom:28px}
+    .section-head{
+      border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      box-shadow:var(--shadow);padding:38px 44px;margin-bottom:16px;
+    }
+    .section-tag{
+      font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--accent);margin-bottom:10px;
+    }
+    .section-head h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.03em;margin-bottom:12px}
+    .section-head p{color:var(--muted);font-size:16px;max-width:680px;line-height:1.7}
+    .triple{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .scene-card{
+      border:1px solid var(--line);border-radius:20px;
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      overflow:hidden;
+    }
+    .scene-img{
+      border-radius:16px;margin:14px 14px 0;overflow:hidden;
+    }
+    .scene-body{padding:16px 18px 22px}
+    .scene-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    .scene-card h3{font-size:17px;font-weight:500;margin-bottom:8px;letter-spacing:-.01em}
+    .scene-card p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:12px}
+    .scene-quote{
+      padding:10px 12px;border-radius:10px;
+      background:rgba(143,179,255,.06);border:1px solid rgba(143,179,255,.14);
+      color:#dce7ff;font-size:12px;font-style:italic;
+    }
+
+    /* ── WHAT / NOT ── */
+    .what-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    .what-panel{
+      border:1px solid var(--line);border-radius:20px;padding:26px;
+    }
+    .what-panel h3{font-size:16px;font-weight:600;margin-bottom:12px}
+    .what-panel ul{margin:0;padding-left:18px}
+    .what-panel li{margin:8px 0;font-size:14px;color:var(--muted);line-height:1.6}
+    .is-panel{background:rgba(143,179,255,.05);border-color:rgba(143,179,255,.18)}
+    .is-panel h3{color:var(--accent)}
+    .not-panel{background:rgba(242,192,120,.05);border-color:rgba(242,192,120,.18)}
+    .not-panel h3{color:#f2c078}
+
+    /* ── HOW IT WORKS ── */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+    .step-card{
+      border:1px solid var(--line);border-radius:18px;
+      background:rgba(255,255,255,.04);padding:22px 18px;text-align:center;
+    }
+    .step-num{
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(143,179,255,.14);border:1px solid rgba(143,179,255,.22);
+      color:var(--accent);font-size:15px;font-weight:700;
+      display:grid;place-items:center;margin:0 auto 14px;
+    }
+    .step-card h4{font-size:15px;font-weight:500;margin-bottom:8px}
+    .step-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+
+    /* ── MATERIALS ── */
+    .materials{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    .mat-card{
+      border:1px solid var(--line);border-radius:20px;
+      background:rgba(255,255,255,.04);overflow:hidden;
+    }
+    .mat-img{margin:0}
+    .mat-body{padding:20px 22px 24px}
+    .mat-body h4{font-size:16px;font-weight:500;margin-bottom:8px}
+    .mat-body p{font-size:13px;color:var(--muted);line-height:1.65;margin:0}
+
+    /* ── EXPERIENCE ── */
+    .paths{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+    .path-card{
+      border:1px solid var(--line);border-radius:20px;
+      background:rgba(255,255,255,.04);padding:24px 20px;text-align:center;
+    }
+    .path-icon{font-size:36px;margin-bottom:12px}
+    .path-card h4{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--accent)}
+    .path-card p{font-size:13px;color:var(--muted);line-height:1.65;margin:0}
+
+    /* ── REWARDS ── */
+    .rewards-grid{display:grid;gap:16px;margin-top:16px}
+    .reward-card{
+      border:1px solid var(--line);border-radius:22px;
+      background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      padding:30px 34px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
+    }
+    .reward-badge{
+      display:inline-flex;padding:5px 10px;border-radius:999px;
+      background:rgba(143,179,255,.14);border:1px solid rgba(143,179,255,.22);
+      color:#8fb3ff;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;
+    }
+    .reward-card h3{font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-.02em}
+    .reward-card .price{font-size:26px;font-weight:700;color:var(--accent);margin-bottom:12px}
+    .reward-card .desc{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:14px}
+    .reward-items{list-style:none;padding:0}
+    .reward-items li{margin:6px 0;font-size:13px;color:var(--muted)}
+    .reward-items li::before{content:'✓ ';color:var(--green)}
+    .reward-card .pledge-btn{
+      padding:14px 28px;border-radius:14px;white-space:nowrap;
+      background:var(--accent);color:#0a0c14;font-weight:700;font-size:15px;
+      text-decoration:none;display:inline-block;
+    }
+    .reward-limited{
+      padding:6px 12px;border-radius:999px;background:rgba(242,192,120,.1);
+      border:1px solid rgba(242,192,120,.25);color:#f2c078;font-size:12px;
+      display:inline-block;margin-bottom:10px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline{margin-top:16px}
+    .tl-row{
+      display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:center;
+      padding:16px 0;border-bottom:1px solid var(--line);
+    }
+    .tl-row:last-child{border-bottom:none}
+    .tl-date{font-size:14px;font-weight:600;color:var(--accent)}
+    .tl-event{font-size:14px;color:var(--muted);line-height:1.6}
+
+    /* ── RISKS ── */
+    .risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+    .risk-card{
+      border:1px solid var(--line);border-radius:18px;
+      background:rgba(255,255,255,.04);padding:22px;
+    }
+    .risk-card h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--amber)}
+    .risk-card p{font-size:13px;color:var(--muted);line-height:1.65;margin:0}
+
+    /* ── FAQ ── */
+    .faq-list{margin-top:16px}
+    .faq-item{
+      border:1px solid var(--line);border-radius:16px;
+      background:rgba(255,255,255,.04);padding:20px 24px;margin-bottom:10px;
+    }
+    .faq-q{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--text)}
+    .faq-a{font-size:14px;color:var(--muted);line-height:1.7;margin:0}
+
+    /* ── CTA ── */
+    .cta-section{
+      border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(160deg,rgba(143,179,255,.12),rgba(143,179,255,.04));
+      box-shadow:var(--shadow);padding:52px 48px;text-align:center;
+    }
+    .cta-section h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.03em;margin-bottom:14px}
+    .cta-section p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 28px;line-height:1.7}
+
+    /* ── CLOSING NOTE ── */
+    .closing{
+      margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);
+      background:rgba(255,255,255,.04);padding:28px 32px;
+      color:var(--muted);font-size:14px;line-height:1.7;text-align:center;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider{
+      display:flex;align-items:center;gap:16px;margin:40px 0 28px;
+    }
+    .section-divider::before,.section-divider::after{
+      content:'';flex:1;height:1px;background:var(--line);
+    }
+    .section-divider span{
+      font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+    }
+
+    @media(max-width:900px){
+      .triple,.what-grid,.steps,.materials,.paths,.risk-grid{grid-template-columns:1fr}
+      .reward-card{grid-template-columns:1fr}
+      .tl-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">ecompass <span>· Kickstarter</span></div>
+    <a href="https://www.kickstarter.com" class="back" target="_blank">View on Kickstarter →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span></span>First Run · Kickstarter Exclusive</div>
+    <h1>A Tactile Desk Ritual<br>for Pause, Reset, and Focus</h1>
+    <p class="hero-sub">ecompass is a physical desk object that connects touch to a calm, short digital experience — no app, no account, no data collected. Tap it, choose your path, and return.</p>
+    <div class="hero-cta">
+      <a href="#rewards" class="btn-primary">Back This Project</a>
+      <a href="#how" class="btn-ghost">How It Works</a>
+    </div>
+    <div class="hero-meta">
+      <span class="meta-pill">📍 San Francisco, CA</span>
+      <span class="meta-pill">⚡ 200 Early Bird Units</span>
+      <span class="meta-pill">📦 Ships Q3 2026</span>
+      <span class="meta-pill">🔒 No App Required</span>
+    </div>
+
+    <!-- Hero image: brass compass on a calm, designed desk -->
+    <div class="hero-img">
+      <div class="img-placeholder">
+        <div class="big">🧭</div>
+        <p>A brushed brass compass on a minimal wooden desk. Soft natural light from the left. A ceramic cup, an open notebook, and a pen nearby. Calm, intentional, tactile. This is the hero shot.</p>
+        <div class="img-specs">
+          IMG: Hero — 16:9 · 3840×2160 · brushed brass compass hero, soft natural daylight, editorial lifestyle, premium product photography
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY NOW -->
+  <section class="section" id="why">
+    <div class="section-head">
+      <div class="section-tag">Why Now</div>
+      <h2>Three moments. Three reasons to pause.</h2>
+      <p>ecompass fits into the real moments between tasks — not as a productivity tool, but as a physical cue to return to yourself before the day takes over.</p>
+    </div>
+
+    <div class="triple">
+      <!-- Morning -->
+      <div class="scene-card">
+        <div class="scene-img">
+          <div class="img-placeholder" style="aspect-ratio:4/3">
+            <div class="big">🌅</div>
+            <p style="font-size:12px">Morning light. Brass compass on a wooden desk with tea, notebook, soft paper. The day hasn't started yet.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Why Now Morning — 4:3 · 2400×1800 · morning lifestyle, soft warm light, desk ritual, calm atmosphere</div>
+          </div>
+        </div>
+        <div class="scene-body">
+          <div class="scene-label">Morning</div>
+          <h3>Before the day begins, begin with yourself.</h3>
+          <p>The first quiet moment before your phone, your inbox, or the day's momentum takes hold. A small ritual to set an intention for what matters today.</p>
+          <div class="scene-quote">"Begin gently. Start with intention."</div>
+        </div>
+      </div>
+      <!-- Work -->
+      <div class="scene-card">
+        <div class="scene-img">
+          <div class="img-placeholder" style="aspect-ratio:4/3">
+            <div class="big">💻</div>
+            <p style="font-size:12px">Midday desk. Brass compass near notebook and pen. Quiet focus. The moment between tasks — when attention drifts and needs to return.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Why Now Work — 4:3 · 2400×1800 · work desk lifestyle, mid-day, focused calm, desk ritual, neutral daylight</div>
+          </div>
+        </div>
+        <div class="scene-body">
+          <div class="scene-label">Work</div>
+          <h3>When your attention drifts, return with one touch.</h3>
+          <p>The drift between tasks, the tab that pulls you somewhere else. ecompass is a small, quiet interruption — not louder, just clearer than the noise.</p>
+          <div class="scene-quote">"Return to focus. Come back to one thing."</div>
+        </div>
+      </div>
+      <!-- Evening -->
+      <div class="scene-card">
+        <div class="scene-img">
+          <div class="img-placeholder" style="aspect-ratio:4/3">
+            <div class="big">🌙</div>
+            <p style="font-size:12px">Evening. Warm desk lamp, closed notebook, ceramic mug. The day is winding down. Brass compass as the closing ritual.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Why Now Evening — 4:3 · 2400×1800 · evening desk, warm lamp light, twilight background, closing ritual, intimate calm</div>
+          </div>
+        </div>
+        <div class="scene-body">
+          <div class="scene-label">Evening</div>
+          <h3>End the day with a quieter kind of attention.</h3>
+          <p>When the work stops but the mind hasn't come home yet. A small gesture to pause, reflect, and let the day land before the next day begins.</p>
+          <div class="scene-quote">"Let the day settle. Close the loop gently."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>What ecompass Is</span></div>
+
+  <!-- WHAT IT IS / IS NOT -->
+  <section class="section">
+    <div class="what-grid">
+      <div class="what-panel is-panel">
+        <h3>What ecompass IS</h3>
+        <ul>
+          <li>A desk ritual object — a physical thing you touch</li>
+          <li>A trigger for a calm, short digital moment</li>
+          <li>Three guided pathways: Reset, Focus, Reflect</li>
+          <li>No app, no account, no data collected</li>
+          <li>Designed for everyday use — not special occasions</li>
+          <li>A first step before action, not a substitute for it</li>
+        </ul>
+      </div>
+      <div class="what-panel not-panel">
+        <h3>What ecompass is NOT</h3>
+        <ul>
+          <li>Not a divination or fortune-telling device</li>
+          <li>Not a meditation app or mindfulness subscription</li>
+          <li>Not a mental health treatment or therapy replacement</li>
+          <li>Not a productivity dashboard or task manager</li>
+          <li>Not designed to predict, diagnose, or cure anything</li>
+          <li>Not a desk decoration — it's meant to be used</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>How It Works</span></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-head">
+      <div class="section-tag">How It Works</div>
+      <h2>Touch. Open. Choose.</h2>
+      <p>ecompass uses NFC (Near Field Communication) to connect the physical object to the digital experience. No pairing, no Bluetooth, no app install.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Tap</h4>
+        <p>Hold your phone's NFC area against the ecompass surface for 1–2 seconds.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Open</h4>
+        <p>The browser opens the ecompass experience page directly. No app store. No install prompt.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Choose</h4>
+        <p>Reset, Focus, or Reflect. Each is a complete, self-contained experience under 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>Return</h4>
+        <p>Close the page. Put the compass back. The ritual is done. You've reset.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:18px 22px;border-radius:18px;border:1px solid rgba(116,211,168,.2);background:rgba(116,211,168,.06);">
+      <p style="font-size:14px;color:var(--muted);margin:0">
+        <strong style="color:#74d3a8">No data is collected.</strong> The NFC tag contains only a URL. It cannot read your phone, access your data, or store any information about you. Works with iPhone XS+ and most Android phones (2015+). QR code fallback included for any phone.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>The Experience</span></div>
+
+  <!-- THREE PATHS -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-tag">Three Pathways</div>
+      <h2>Choose what you need right now.</h2>
+      <p>Each experience is short, intentional, and designed to be used in under two minutes. No tracking. No history. No pressure.</p>
+    </div>
+
+    <div class="paths">
+      <div class="path-card">
+        <div class="path-icon">⏸</div>
+        <h4>Reset</h4>
+        <p>A 30-second breathing pause. Nothing to solve. No agenda. Just a moment to return before moving on.</p>
+      </div>
+      <div class="path-card">
+        <div class="path-icon">🎯</div>
+        <h4>Focus</h4>
+        <p>Name your next step. Get a quiet prompt. Begin before you feel ready. One thing. Five minutes.</p>
+      </div>
+      <div class="path-card">
+        <div class="path-icon">💭</div>
+        <h4>Reflect</h4>
+        <p>A single question worth sitting with. Not to answer — just to let it land before the day closes.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>Materials</span></div>
+
+  <!-- MATERIALS -->
+  <section class="section" id="materials">
+    <div class="section-head">
+      <div class="section-tag">Materials & Form</div>
+      <h2>Something worth keeping on your desk.</h2>
+      <p>ecompass is designed to earn its place on your desk through both form and function — not as decoration, but as a quiet companion for the moments that matter.</p>
+    </div>
+
+    <div class="materials">
+      <div class="mat-card">
+        <div class="mat-img">
+          <div class="img-placeholder" style="aspect-ratio:16/9">
+            <div class="big">黄铜</div>
+            <p style="font-size:12px">Close-up of brushed brass surface with fine machining marks. Warm light. Tactile, premium, understated.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Material Detail — 16:9 · brushed brass texture macro, warm natural light, premium product photography</div>
+          </div>
+        </div>
+        <div class="mat-body">
+          <h4>Brass Body</h4>
+          <p>CNC-machined brass with a brushed satin finish. Weighted enough to feel intentional, light enough to travel. Develops a natural patina over time.</p>
+        </div>
+      </div>
+      <div class="mat-card">
+        <div class="mat-img">
+          <div class="img-placeholder" style="aspect-ratio:16/9">
+            <div class="big">NFC</div>
+            <p style="font-size:12px">The NFC tag embedded in the base. Thin, adhesive-backed, programmed with the experience URL.</p>
+            <div class="img-specs" style="font-size:11px">IMG: NFC Tag Detail — 16:9 · embedded NFC chip close-up, clean technical photography</div>
+          </div>
+        </div>
+        <div class="mat-body">
+          <h4>Embedded NFC Tag</h4>
+          <p>A thin, reliable NFC tag embedded in the base of the object. Pre-programmed and tested before shipping. Rewritable if you ever want to redirect it.</p>
+        </div>
+      </div>
+      <div class="mat-card">
+        <div class="mat-img">
+          <div class="img-placeholder" style="aspect-ratio:16/9">
+            <div class="big">📦</div>
+            <p style="font-size:12px">Compact unboxing experience. ecompass nestled in recycled pulp. Minimal card with QR code. No plastic.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Packaging — 16:9 · minimal sustainable packaging, ecompass unboxing, recycled materials, clean design</div>
+          </div>
+        </div>
+        <div class="mat-body">
+          <h4>Sustainable Packaging</h4>
+          <p>Compact recycled paper pulp insert. No foam, no plastic. Ships in a rigid mailer. Designed to be opened, not thrown away.</p>
+        </div>
+      </div>
+      <div class="mat-card">
+        <div class="mat-img">
+          <div class="img-placeholder" style="aspect-ratio:16/9">
+            <div class="big">🧭</div>
+            <p style="font-size:12px">Side profile of the compass. Thin — under 8mm. Wide enough to feel stable. Small enough to travel.</p>
+            <div class="img-specs" style="font-size:11px">IMG: Form Factor — 16:9 · compass side profile, thin profile shot, premium product, clean background</div>
+          </div>
+        </div>
+        <div class="mat-body">
+          <h4>Compact Form Factor</h4>
+          <p>Under 8mm thin, 60mm diameter. Stable on any desk. Small enough to slip into a bag. Chosen to feel present without being bulky.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>Rewards</span></div>
+
+  <!-- REWARDS -->
+  <section class="section" id="rewards">
+    <div class="section-head">
+      <div class="section-tag">Back This Project</div>
+      <h2>Be part of the first run.</h2>
+      <p>Backers of the first edition become founding users — not customers, but early collaborators whose feedback shapes what ecompass becomes.</p>
+    </div>
+
+    <div class="rewards-grid">
+      <!-- Early Bird -->
+      <div class="reward-card">
+        <div>
+          <div class="reward-limited">⚡ 200 units · Early Bird</div>
+          <div class="reward-badge">Most Popular</div>
+          <h3>ecompass · Early Bird</h3>
+          <div class="price">$49</div>
+          <p class="desc">The complete ecompass first edition at the best possible price. Be among the first 200 backers and lock in founding-level pricing forever.</p>
+          <ul class="reward-items">
+            <li>1× ecompass first edition (brass)</li>
+            <li>Early backer pricing — lowest price, ever</li>
+            <li>Founding backer recognition on our website</li>
+            <li>Campaign progress updates & behind-the-scenes</li>
+            <li>Ships Q3 2026 · discreet packaging</li>
+          </ul>
+        </div>
+        <a href="#" class="pledge-btn">Back This Reward</a>
+      </div>
+
+      <!-- Standard -->
+      <div class="reward-card">
+        <div>
+          <div class="reward-badge">Standard Edition</div>
+          <h3>ecompass · Standard</h3>
+          <div class="price">$69</div>
+          <p class="desc">The standard first edition for those who want to join the first run at a fair price. Same object, same experience, same founding recognition.</p>
+          <ul class="reward-items">
+            <li>1× ecompass first edition (brass)</li>
+            <li>Standard backer pricing</li>
+            <li>Founding backer recognition on our website</li>
+            <li>Campaign updates & behind-the-scenes</li>
+            <li>Ships Q3 2026 · discreet packaging</li>
+          </ul>
+        </div>
+        <a href="#" class="pledge-btn">Back This Reward</a>
+      </div>
+
+      <!-- Founding -->
+      <div class="reward-card">
+        <div>
+          <div class="reward-badge">Founding Edition</div>
+          <h3>ecompass · Founding Edition</h3>
+          <div class="price">$99</div>
+          <p class="desc">The founding edition for those who want to be part of the story from the start. Includes a numbered certificate and early access to any future extensions.</p>
+          <ul class="reward-items">
+            <li>1× ecompass founding edition (numbered)</li>
+            <li>Numbered certificate of founding</li>
+            <li>Early access to future ecompass extensions</li>
+            <li>Founding backer recognition on our website</li>
+            <li>Priority shipping (ships Q3 2026)</li>
+          </ul>
+        </div>
+        <a href="#" class="pledge-btn">Back This Reward</a>
+      </div>
+
+      <!-- Multi -->
+      <div class="reward-card">
+        <div>
+          <div class="reward-badge">Gift / Multi</div>
+          <h3>ecompass · Two-Pack</h3>
+          <div class="price">$89</div>
+          <p class="desc">Give one to someone whose desk could use a moment of pause. Two ecompass units at a bundle price. Great for gifts or your own backup.</p>
+          <ul class="reward-items">
+            <li>2× ecompass first edition (brass)</li>
+            <li>Discreet gift packaging available</li>
+            <li>Bundle pricing — save $29 vs. two singles</li>
+            <li>Founding backer recognition</li>
+            <li>Ships Q3 2026</li>
+          </ul>
+        </div>
+        <a href="#" class="pledge-btn">Back This Reward</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>Timeline</span></div>
+
+  <!-- TIMELINE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-tag">Timeline</div>
+      <h2>What happens after you back.</h2>
+      <p>We're committed to transparency about where we are, what we've done, and what's still ahead.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-date">Now</div>
+        <div class="tl-event">Kickstarter campaign launches. Early Bird units available at founding pricing.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">April 2026</div>
+        <div class="tl-event">Campaign closes. Production begins. All backers confirmed and notified.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">June 2026</div>
+        <div class="tl-event">First production units complete. Quality inspection and discrete packaging.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">July 2026</div>
+        <div class="tl-event">Shipping begins. Early Bird backers first, in order of pledge date.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">August 2026</div>
+        <div class="tl-event">Standard and Founding Edition backer shipping complete. Digital experience updated based on early user feedback.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>Risks & Challenges</span></div>
+
+  <!-- RISKS -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-tag">Honesty</div>
+      <h2>What we're not telling you.</h2>
+      <p>We believe backers deserve complete transparency — including about the parts that are hard to talk about.</p>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <h4>⚙️ Hardware Iteration</h4>
+        <p>Physical products always require refinement between prototype and production. Surface finish, weight, and packaging details may shift as we move from sample to mass production. We're keeping the scope narrow to minimize unknowns.</p>
+      </div>
+      <div class="risk-card">
+        <h4>📦 Supply Chain</h4>
+        <p>Component sourcing and manufacturing timelines can shift. We've built in a Q3 2026 window to give ourselves real buffer. If anything changes materially, we'll communicate immediately.</p>
+      </div>
+      <div class="risk-card">
+        <h4>🔒 Digital Experience</h4>
+        <p>The ecompass digital experience (Reset, Focus, Reflect) is designed to be simple and reliable by default. We are not planning major feature expansions in the first version — stability over novelty.</p>
+      </div>
+      <div class="risk-card">
+        <h4>🌱 Sustainability</h4>
+        <p>We are committing to recyclable packaging and minimal shipping footprint. If we find a better option mid-production, we'll upgrade without fanfare — but we won't use this as a marketing hook if it isn't real.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><span>FAQ</span></div>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-tag">FAQ</div>
+      <h2>Questions we expect.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Do I need an app?</div>
+        <div class="faq-a">No. ecompass is designed to work with your phone's default browser through NFC. No app install, no account creation, no data collection.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Which phones work with NFC?</div>
+        <div class="faq-a">Most Android phones from 2015 onward. iPhone XS and later (requires tapping the back of the phone to the compass). For phones without NFC, a QR code on the base of the compass serves as the fallback trigger.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is this a meditation product?</div>
+        <div class="faq-a">Not exactly. ecompass can support calm, focus, and reflection, but we are not positioning it as a formal meditation system or a therapeutic tool. It's better understood as a desk ritual object for the small, everyday moments between tasks.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does it collect any data?</div>
+        <div class="faq-a">No. The NFC tag contains only a URL. It cannot read your phone, access your contacts, location, or any personal information. The digital experience has no accounts, no tracking, and no data storage.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if I want a refund?</div>
+        <div class="faq-a">We offer a 30-day return policy for undamaged units. Contact us directly — not through a bot — and we'll sort it out. We want first-edition backers to feel genuinely good about their purchase.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">When will it ship?</div>
+        <div class="faq-a">We are targeting Q3 2026 for first shipments. Early Bird backers ship first, in the order their pledges are confirmed. We'll send tracking info and updates as each batch goes out.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is the NFC tag rewritable?</div>
+        <div class="faq-a">Yes. The NFC tag embedded in ecompass is rewritable. If we release a new experience URL in the future, backers will be able to update it. Instructions will be provided.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if I lose my compass?</div>
+        <div class="faq-a">The experience URL is unique to your unit. If you lose it, contact us — we'll help you get a replacement or redirect your experience. We're building this for the long term, not for one-time transactions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="cta-section">
+    <h2>Ready to bring ecompass to life?</h2>
+    <p>200 Early Bird units available at founding pricing. Once they're gone, they're gone. No rain checks, no second chance at this price.</p>
+    <a href="#rewards" class="btn-primary">Back This Project</a>
+  </section>
+
+  <div class="closing">
+    ecompass is a personal project built around a simple belief: the moments between tasks deserve more than a scroll.<br>
+    Thank you for being part of the first run.
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ecompass 多 Agent 架构规划 — 完整工作报告</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+  header { text-align: center; margin-bottom: 56px; padding-bottom: 32px; border-bottom: 1px solid #21262d; }
+  .badge { display: inline-block; background: #1f6feb; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  h1 { font-size: 30px; font-weight: 700; margin-bottom: 12px; color: #f0f6fc; }
+  .subtitle { color: #8b949e; font-size: 15px; }
+  .meta { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { font-size: 12px; color: #8b949e; }
+  .meta-item strong { color: #c9d1d9; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; }
+  @media(max-width:700px){ .two-col { grid-template-columns: 1fr; } }
+
+  section { margin-bottom: 48px; }
+  h2 { font-size: 18px; font-weight: 700; color: #f0f6fc; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #1f6feb; }
+  h3 { font-size: 14px; font-weight: 600; color: #c9d1d9; margin-bottom: 12px; margin-top: 24px; }
+  h4 { font-size: 13px; font-weight: 600; color: #8b949e; margin-bottom: 8px; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 20px; }
+  .card h3 { margin-top: 0; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+  .tag.blue { background: #1f6feb22; color: #60a0fa; border: 1px solid #1f6feb44; }
+  .tag.green { background: #23863622; color: #3fb950; border: 1px solid #23863644; }
+  .tag.yellow { background: #d2992222; color: #e3b341; border: 1px solid #d2992244; }
+  .tag.red { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+
+  .divider { border: none; border-top: 1px solid #21262d; margin: 40px 0; }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; color: #c9d1d9; }
+  li strong { color: #e6edf3; }
+
+  .task-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 20px; margin-bottom: 16px; border-left: 4px solid; }
+  .task-card.high { border-left-color: #da3633; }
+  .task-card.medium { border-left-color: #d29922; }
+  .task-card.low { border-left-color: #238636; }
+  .task-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .task-id { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #21262d; color: #8b949e; font-family: monospace; }
+  .task-name { font-size: 14px; font-weight: 600; color: #f0f6fc; }
+  .task-goal { font-size: 13px; color: #8b949e; margin-bottom: 12px; line-height: 1.5; }
+  .task-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #6e7681; }
+  .task-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .pattern-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+  .pattern-name { font-size: 15px; font-weight: 700; color: #f0f6fc; margin-bottom: 6px; }
+  .pattern-desc { font-size: 13px; color: #8b949e; margin-bottom: 10px; }
+  .pattern-recommended { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; background: #23863622; color: #3fb950; border: 1px solid #23863644; padding: 2px 10px; border-radius: 12px; margin-bottom: 8px; }
+
+  .architecture-diagram { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 24px; text-align: center; margin: 20px 0; }
+  .arch-layer { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; margin: 4px; }
+  .arch-layer.l0 { background: #1f6feb22; color: #60a0fa; border: 1px solid #1f6feb44; }
+  .arch-layer.l1 { background: #d2992222; color: #e3b341; border: 1px solid #d2992244; }
+  .arch-layer.l2 { background: #23863622; color: #3fb950; border: 1px solid #23863644; }
+  .arch-arrow { color: #484f58; font-size: 18px; margin: 4px 0; }
+  .arch-note { font-size: 11px; color: #484f58; margin-top: 8px; }
+
+  .framework-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  @media(max-width:600px){ .framework-grid { grid-template-columns: 1fr; } }
+  .fw-card { background: #161b22; border: 1px solid #21262d; border-radius: 6px; padding: 14px; }
+  .fw-name { font-size: 13px; font-weight: 700; color: #f0f6fc; margin-bottom: 4px; }
+  .fw-stars { font-size: 11px; color: #8b949e; margin-bottom: 6px; }
+  .fw-verdict { font-size: 11px; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+  .fw-verdict.good { background: #23863622; color: #3fb950; }
+  .fw-verdict.info { background: #1f6feb22; color: #60a0fa; }
+  .fw-verdict.caution { background: #d2992222; color: #e3b341; }
+
+  .status-table { width: 100%; border-collapse: collapse; }
+  .status-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #8b949e; padding: 8px 12px; border-bottom: 1px solid #21262d; }
+  .status-table td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+  .status-table tr:last-child td { border-bottom: none; }
+  .status-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+  .status-badge.pending { background: #21262d; color: #8b949e; }
+  .status-badge.done { background: #23863622; color: #3fb950; }
+
+  .principle-list { list-style: none; }
+  .principle-list li { padding: 10px 0; border-bottom: 1px solid #21262d; display: flex; gap: 10px; }
+  .principle-list li:last-child { border-bottom: none; }
+  .principle-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+  .principle-icon.do { color: #238636; }
+  .principle-icon.dont { color: #da3633; }
+
+  .timeline { border-left: 2px solid #1f6feb; padding-left: 24px; margin-left: 8px; }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-item::before { content: ''; position: absolute; left: -29px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: #1f6feb; border: 2px solid #0d1117; }
+  .timeline-phase { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #1f6feb; margin-bottom: 4px; }
+  .timeline-content { font-size: 13px; color: #c9d1d9; }
+  .timeline-task { font-size: 12px; color: #8b949e; margin-top: 4px; }
+
+  .footer { text-align: center; color: #484f58; font-size: 12px; padding-top: 32px; border-top: 1px solid #21262d; margin-top: 48px; }
+
+  .verdict-box { background: linear-gradient(135deg, #0d4429, #1a6f38); border: 1px solid #238636; border-radius: 12px; padding: 28px; text-align: center; margin: 24px 0; }
+  .verdict-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #3fb950; margin-bottom: 8px; }
+  .verdict-text { font-size: 20px; font-weight: 700; color: #fff; }
+  .verdict-sub { font-size: 13px; color: #8b949e; margin-top: 8px; }
+
+  .highlight-box { background: #161b22; border-left: 4px solid #1f6feb; padding: 16px 20px; margin: 16px 0; font-size: 14px; color: #c9d1d9; border-radius: 0 8px 8px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<header>
+  <div class="badge">✅ 资料收集已完成 · 任务池已建立</div>
+  <h1>ecompass 多 Agent 架构规划</h1>
+  <div class="subtitle">AI Agent 公司/项目架构研究报告 + 任务池落地执行方案</div>
+  <div class="meta">
+    <span class="meta-item"><strong>研究时间</strong>：2026-03-28</span>
+    <span class="meta-item"><strong>任务池</strong>：ecompass-015 ~ 018</span>
+    <span class="meta-item"><strong>截止</strong>：2026-03-30 17:00</span>
+    <span class="meta-item"><strong>参考来源</strong>：GitHub · 麦肯锡 · Gartner</span>
+  </div>
+</header>
+
+<!-- 第一部分：研究摘要 -->
+<section>
+  <h2>一、研究摘要</h2>
+  <div class="highlight-box">
+    <strong>核心结论：</strong>ecompass 应定位为「项目主管 Agent」（Supervisor），不变大只变聪明，变大的是 specialist 池（validation-lab、launch-prep 等）。通过标准化的 inbox/artifact 协议实现任务分发与结果整合。
+  </div>
+  <div class="two-col" style="margin-top:20px;">
+    <div class="card">
+      <h3>参考资料来源</h3>
+      <ul>
+        <li>GitHub: CrewAI (22k+★), AutoGen (35k+★), LangChain (116k★)</li>
+        <li>麦肯锡《The Agentic Organization》(2024)</li>
+        <li>Gartner AI-First Startup Organizational Structure</li>
+        <li>CIO《The AI Agent Orchestrator: The New CTO》</li>
+        <li>Azure AI Agent Design Patterns</li>
+        <li>Google Cloud: Choose Agent Pattern</li>
+        <li>OpenClaw Multi-Agent 官方文档</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>最终架构模式</h3>
+      <strong style="color:#f0f6fc;">Supervisor Pattern（主管模式）</strong>
+      <ul style="margin-top:8px;">
+        <li>main = 用户入口</li>
+        <li>ecompass = 项目主管（Supervisor）</li>
+        <li>specialists = validation-lab / launch-prep / [future]</li>
+        <li>通信介质 = inbox 文件 + sessions_send</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第二部分：架构图 -->
+<section>
+  <h2>二、目标架构图</h2>
+  <div class="architecture-diagram">
+    <div class="arch-layer l0">👤 用户 / main agent</div>
+    <div class="arch-arrow">↓ 任务下发 / 汇报</div>
+    <div class="arch-layer l1">ecompass（Project Supervisor）<br><span style="font-size:11px;font-weight:400;color:#e3b341">任务拆解 · 分发 · 整合 · 决策升级</span></div>
+    <div class="arch-arrow">↓ sessions_spawn + inbox</div>
+    <div class="arch-layer l2">validation-lab（市场验证专家）</div>
+    <div class="arch-arrow" style="visibility:hidden">↓</div>
+    <div class="arch-layer l2">launch-prep（预热运营专家）</div>
+    <div class="arch-arrow" style="visibility:hidden">↓</div>
+    <div class="arch-layer l2">[future: content/seo/supply-chain]</div>
+    <div class="arch-note">所有 specialist 独立 workspace，通过 inbox/artifact 文件与 ecompass 通信</div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>ecompass 作为 Supervisor 的职责</h3>
+      <ul>
+        <li><strong>任务拆解</strong> — 复杂任务拆成子任务</li>
+        <li><strong>路由分发</strong> — 判断类型，发给对的 specialist</li>
+        <li><strong>结果整合</strong> — specialist 输出整合成结论</li>
+        <li><strong>决策升级</strong> — 跨维度/不可逆问题上报用户</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ecompass 不应该做的事</h3>
+      <ul>
+        <li>❌ 自己做市场验证 → 交给 validation-lab</li>
+        <li>❌ 自己渗透 Reddit → 交给 launch-prep</li>
+        <li>❌ 天天管执行细节 → 让 specialist 自跑</li>
+        <li>❌ 变臃肿万金油 → 保持专注，只做路由</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第三部分：三大协调模式 -->
+<section>
+  <h2>三、三大 Agent 协调模式对比</h2>
+  <div class="pattern-card">
+    <div class="pattern-recommended">⭐ Supervisor Pattern — 推荐方案</div>
+    <div class="pattern-name">Supervisor（主管模式）</div>
+    <div class="pattern-desc">中央 supervisor 只负责调度和整合，不做具体执行；每个 worker agent 是独立专家；任务完成后汇报给 supervisor 汇总。</div>
+    <div class="tag-row">
+      <span class="tag green">代表：AutoGen Supervisor / CrewAI Hierarchical</span>
+      <span class="tag blue">适用：复杂任务 · 多专业协作 · 企业级</span>
+    </div>
+  </div>
+  <div class="pattern-card">
+    <div class="pattern-name" style="color:#8b949e;">Chain（链式模式）</div>
+    <div class="pattern-desc">线性流程，Agent A → Agent B → Agent C，后一步依赖前一步输出。</div>
+    <div class="tag-row" style="margin-top:8px;">
+      <span class="tag yellow">代表：LangGraph 状态机</span>
+      <span class="tag blue">弱点：不适合有分支/判断的流程</span>
+    </div>
+  </div>
+  <div class="pattern-card">
+    <div class="pattern-name" style="color:#8b949e;">Router（路由模式）</div>
+    <div class="pattern-desc">一个中央 agent 做分类决策，把任务分发到对应 specialist，不做执行。</div>
+    <div class="tag-row" style="margin-top:8px;">
+      <span class="tag yellow">代表：LangChain LCEL Router</span>
+      <span class="tag blue">弱点：不做执行时，整合能力偏弱</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第四部分：GitHub 高星框架 -->
+<section>
+  <h2>四、GitHub 高星框架参考</h2>
+  <div class="framework-grid">
+    <div class="fw-card">
+      <div class="fw-name">LangChain</div>
+      <div class="fw-verdict" style="background:#21262d;color:#8b949e;">~116k ★ · 通用</div>
+      <div class="fw-verdict caution" style="margin-top:4px;">弱点：对 agent 来说偏低层，需大量胶水代码</div>
+    </div>
+    <div class="fw-card">
+      <div class="fw-name">AutoGen（微软）</div>
+      <div class="fw-verdict info">~35k ★ · 企业级</div>
+      <div class="fw-verdict" style="background:#21262d;color:#8b949e;margin-top:4px;">支持群聊模式，学习曲线陡</div>
+    </div>
+    <div class="fw-card">
+      <div class="fw-name">CrewAI ⭐参考</div>
+      <div class="fw-verdict good">22k+ ★ · 最接近人类团队</div>
+      <div class="fw-verdict info" style="margin-top:4px;">Role/Goal/Backstory 清晰，上手最快</div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:16px;">
+    <strong>⭐ CrewAI 的 Role-Based Agent 设计最值得参考：</strong>每个 agent 有清晰的角色、目标、背景故事。ecompass 的 specialist 设计应借鉴此理念。
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第五部分：OpenClaw 能力评估 -->
+<section>
+  <h2>五、OpenClaw 现有能力评估</h2>
+  <table class="status-table">
+    <thead>
+      <tr>
+        <th>能力</th>
+        <th>状态</th>
+        <th>说明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>多 agent 独立 workspace</td>
+        <td><span class="status-badge done">✅ 支持</span></td>
+        <td>ecompass、validation-lab 已各自独立 workspace</td>
+      </tr>
+      <tr>
+        <td>subagent spawn（临时任务）</td>
+        <td><span class="status-badge done">✅ 支持</span></td>
+        <td>sessions_spawn 可启动临时 sub-agent</td>
+      </tr>
+      <tr>
+        <td>跨 agent 通信（sessions_send）</td>
+        <td><span class="status-badge done">✅ 支持</span></td>
+        <td>可向指定 session 发送消息</td>
+      </tr>
+      <tr>
+        <td>共享 skills（~/.openclaw/skills/）</td>
+        <td><span class="status-badge done">✅ 支持</span></td>
+        <td>特殊 agent 可共享 skill</td>
+      </tr>
+      <tr>
+        <td>心跳脚本（task heartbeat）</td>
+        <td><span class="status-badge done">✅ 支持</span></td>
+        <td>ecompass 已配置每 5 分钟心跳</td>
+      </tr>
+      <tr>
+        <td>Supervisor 模式自动化</td>
+        <td><span class="status-badge pending">⚠️ 需补充</span></td>
+        <td>ecompass 没有系统级"下发→执行→回报→整合"自动循环</td>
+      </tr>
+      <tr>
+        <td>inbox/artifact 目录规范</td>
+        <td><span class="status-badge pending">⚠️ 需建立</span></td>
+        <td>specialist 的 inbox/artifacts/state/reports 目录规范待制定</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- 第六部分：任务池 -->
+<section>
+  <h2>六、任务池（ecompass-015 ~ 018）</h2>
+  <p style="color:#8b949e;font-size:13px;margin-bottom:16px;">从研究报告提炼出的 4 个具体执行任务，已进入 ecompass 任务池，等待心跳触发执行。</p>
+
+  <div class="task-card high">
+    <div class="task-header">
+      <span class="task-id">ecompass-015</span>
+      <span class="task-name">建立多 Agent 通信协议：目录结构规范</span>
+    </div>
+    <div class="task-goal">为所有 specialist agent（validation-lab、launch-prep 等）统一建立 inbox/、artifacts/、state/、reports/ 四个目录，并写 AGENTS_ARCHITECTURE.md 说明用途和命名规范。</div>
+    <div class="task-meta">
+      <span>📂 产出：目录结构 + README.md</span>
+      <span>⏰ 截止：2026-03-30 17:00</span>
+      <span>🔗 来源：报告第七节「通信协议」</span>
+    </div>
+  </div>
+
+  <div class="task-card high">
+    <div class="task-header">
+      <span class="task-id">ecompass-016</span>
+      <span class="task-name">创建 launch-prep specialist agent</span>
+    </div>
+    <div class="task-goal">在 ~/.openclaw/agents/launch-prep/ 下建立完整 agent：SOUL.md、IDENTITY.md、CEO_PROFILE.md、auth-profiles.json、models.json，以及 memory/、sessions/ 目录。配飞书群绑定。</div>
+    <div class="task-meta">
+      <span>📂 产出：完整 agent 文件结构</span>
+      <span>⏰ 截止：2026-03-30 17:00</span>
+      <span>🔗 来源：报告第六节 + 麦肯锡 Agentic Organization</span>
+    </div>
+  </div>
+
+  <div class="task-card medium">
+    <div class="task-header">
+      <span class="task-id">ecompass-017</span>
+      <span class="task-name">制定任务下发/回报 JSON 模板</span>
+    </div>
+    <div class="task-goal">制定三种 JSON 模板：task_dispatch.json（ecompass → specialist 下发）、task_report.json（specialist → ecompass 回报）、escalation.json（blocker 上报）。存入 ecompass/docs/。</div>
+    <div class="task-meta">
+      <span>📂 产出：JSON 模板文件 + 使用说明</span>
+      <span>⏰ 截止：2026-03-30 17:00</span>
+      <span>🔗 来源：报告第八节「协议设计」</span>
+    </div>
+  </div>
+
+  <div class="task-card medium">
+    <div class="task-header">
+      <span class="task-id">ecompass-018</span>
+      <span class="task-name">更新 ecompass SOUL.md：Supervisor 职责与路由规则</span>
+    </div>
+    <div class="task-goal">更新 ecompass/agent/SOUL.md，新增：Supervisor 定位定义、任务分发路由规则（判断类型→发给对的 specialist）、决策升级边界（只有跨维度/不可逆问题上报用户）。</div>
+    <div class="task-meta">
+      <span>📂 产出：更新的 SOUL.md</span>
+      <span>⏰ 截止：2026-03-30 17:00</span>
+      <span>🔗 来源：报告第七节「Supervisor 职责」</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第七部分：执行阶段 -->
+<section>
+  <h2>七、分阶段执行计划</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-phase">阶段一（立即）</div>
+      <div class="timeline-content">建立目录结构规范（ecompass-015）</div>
+      <div class="timeline-task">→ 所有 specialist workspace 统一结构</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">阶段二（015 完成后）</div>
+      <div class="timeline-content">创建 launch-prep specialist agent（ecompass-016）</div>
+      <div class="timeline-task">→ Kickstarter 预热运营专家就位</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">阶段三（016 完成后）</div>
+      <div class="timeline-content">制定 JSON 通信模板（ecompass-017）</div>
+      <div class="timeline-task">→ ecompass ↔ specialist 通信标准化</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">阶段四（017 完成后）</div>
+      <div class="timeline-content">更新 ecompass SOUL.md（ecompass-018）</div>
+      <div class="timeline-task">→ ecompass 正式成为 Project Supervisor</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 第八部分：核心原则 -->
+<section>
+  <h2>八、运营原则</h2>
+  <ul class="principle-list">
+    <li>
+      <span class="principle-icon principle-icon.do">✅</span>
+      <div><strong>ecompass 不变大，变聪明；变大的是 specialist 池</strong><br>每个 specialist 独立可启动，职责边界清晰</div>
+    </li>
+    <li>
+      <span class="principle-icon principle-icon.do">✅</span>
+      <div><strong>通过 inbox 文件通信，不直接互相调用</strong><br>所有任务下发/回报经过结构化 JSON 文件，可追溯</div>
+    </li>
+    <li>
+      <span class="principle-icon principle-icon.do">✅</span>
+      <div><strong>specialist 无任务时静默，不发无效心跳</strong><br>只有 running/blocked 状态才触发汇报</div>
+    </li>
+    <li>
+      <span class="principle-icon principle-icon.do">✅</span>
+      <div><strong>ecompass 做判断层，不做执行层</strong><br>市场验证→validation-lab；预热运营→launch-prep；内容→content-agent</div>
+    </li>
+    <li>
+      <span class="principle-icon principle-icon.dont">❌</span>
+      <div><strong>不建臃肿单一 agent</strong><br>当 specialist 职责越来越多时，应该拆分出新的 specialist，而不是塞进 ecompass</div>
+    </li>
+    <li>
+      <span class="principle-icon principle-icon.dont">❌</span>
+      <div><strong>不越界执行 specialist 职责</strong><br>如果 ecompass 收到市场验证任务，应该转发给 validation-lab，而不是自己跑</div>
+    </li>
+  </ul>
+</section>
+
+<hr class="divider">
+
+<!-- 附录 -->
+<section>
+  <h2>附录：关键参考资源</h2>
+  <table class="status-table">
+    <thead>
+      <tr><th>资源</th><th>类型</th><th>价值</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CrewAI（GitHub 22k+★）</td><td>框架</td><td>Role-Based Agent 设计参考</td></tr>
+      <tr><td>AutoGen（微软，~35k★）</td><td>框架</td><td>Supervisor Pattern 企业实践</td></tr>
+      <tr><td>麦肯锡：The Agentic Organization</td><td>报告</td><td>AI-First 组织架构理论</td></tr>
+      <tr><td>CIO：AI Agent Orchestrator</td><td>文章</td><td>AI Orchestrator 角色定义</td></tr>
+      <tr><td>Azure AI Agent Design Patterns</td><td>架构指南</td><td>三大协调模式详解</td></tr>
+      <tr><td>Google Cloud: Choose Agent Pattern</td><td>决策指南</td><td>何时用哪种模式</td></tr>
+      <tr><td>OpenClaw Multi-Agent 文档</td><td>官方文档</td><td>Workspace 隔离 / sessions_spawn</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 最终裁决 -->
+<div class="verdict-box">
+  <div class="verdict-label">架构可行性裁决</div>
+  <div class="verdict-text">✅ 可执行 · 需按阶段推进</div>
+  <div class="verdict-sub">ecompass Supervisor 架构已在技术层面可行；015→016→017→018 四步完成后，体系正式运转</div>
+</div>
+
+<div class="footer">
+  ecompass 多 Agent 架构规划 · 研究完成时间 2026-03-28 · ecompass agent<br>
+  参考来源：GitHub 高星项目 · 麦肯锡 · Gartner · 微软 · OpenClaw 官方文档
+</div>
+
+</div>
+</body>
+</html>

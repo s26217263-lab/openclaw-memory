@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shenpan — A Cyber-Feng-Shui Desk Object for Modern Life</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #07070e;
+      color: #d4cfc8;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: rgba(7,7,14,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(180,140,60,0.12);
+    }
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #c9a84c, #e8c96a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 13px;
+      color: #7a7568;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #c9a84c; }
+    .nav-cta {
+      padding: 8px 20px;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.5);
+      color: #c9a84c;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: #c9a84c; color: #07070e; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(180,120,40,0.1) 0%, transparent 55%),
+        #07070e;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 5px 16px;
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 20px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #c9a84c;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+    .hero-compass {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(201,168,76,0.25);
+      box-shadow:
+        0 0 80px rgba(201,168,76,0.1),
+        0 0 160px rgba(201,168,76,0.05);
+      margin-bottom: 48px;
+    }
+    h1 {
+      font-size: clamp(34px, 6vw, 60px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #e8e4dc 0%, #c9a84c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: #7a7568;
+      max-width: 500px;
+      margin: 0 auto 48px;
+      line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #c9a84c, #d4b55a);
+      color: #07070e;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
+    .btn-secondary {
+      padding: 14px 40px;
+      background: transparent;
+      color: #c9a84c;
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: #c9a84c; }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 56px 24px;
+      border-top: 1px solid rgba(180,140,60,0.08);
+      border-bottom: 1px solid rgba(180,140,60,0.08);
+      background: rgba(180,140,60,0.02);
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 30px; font-weight: 700; color: #c9a84c; display: block; }
+    .stat-label { font-size: 12px; color: #6a6560; margin-top: 4px; display: block; }
+
+    /* ── SECTIONS ── */
+    .section { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #c9a84c;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      color: #e8e4dc;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: #7a7568;
+      max-width: 580px;
+      margin-bottom: 56px;
+      line-height: 1.75;
+    }
+
+    /* ── WHAT IS ── */
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border: 1px solid rgba(180,140,60,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .what-item {
+      background: rgba(180,140,60,0.04);
+      padding: 40px;
+    }
+    .what-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+    .what-item h3 { font-size: 16px; font-weight: 600; color: #e8e4dc; margin-bottom: 8px; }
+    .what-item p { font-size: 14px; color: #6a6560; line-height: 1.7; }
+
+    /* ── EXPERIENCE ── */
+    .exp-step {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 36px;
+      padding: 28px;
+      border: 1px solid rgba(180,140,60,0.08);
+      border-radius: 10px;
+      background: rgba(180,140,60,0.02);
+      align-items: flex-start;
+    }
+    .exp-num {
+      min-width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #c9a84c;
+      flex-shrink: 0;
+    }
+    .exp-body h4 { font-size: 15px; font-weight: 600; color: #e8e4dc; margin-bottom: 6px; }
+    .exp-body p { font-size: 14px; color: #6a6560; }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .what-grid { grid-template-columns: 1fr; }
+      .stats { flex-wrap: wrap; gap: 32px; }
+    }
+    .price-card {
+      border: 1px solid rgba(180,140,60,0.18);
+      border-radius: 10px;
+      padding: 28px 20px;
+      text-align: center;
+      background: rgba(180,140,60,0.03);
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: #c9a84c;
+      background: rgba(201,168,76,0.07);
+    }
+    .price-badge {
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      background: #c9a84c;
+      color: #07070e;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 0 0 8px 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .price-name { font-size: 14px; color: #8a8470; margin-bottom: 6px; font-weight: 600; }
+    .price-material { font-size: 12px; color: #6a6560; margin-bottom: 16px; }
+    .price-amount { font-size: 28px; font-weight: 700; color: #c9a84c; display: block; margin-bottom: 2px; }
+    .price-early { font-size: 11px; color: #6a6560; display: block; margin-bottom: 20px; }
+    .price-features { list-style: none; text-align: left; font-size: 12px; color: #7a7568; line-height: 1.85; }
+    .price-features li::before { content: "✓ "; color: #c9a84c; }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 100px 24px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(180,120,40,0.07) 0%, transparent 70%);
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: #e8e4dc;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .cta-section p { font-size: 16px; color: #7a7568; margin-bottom: 40px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(180,140,60,0.08);
+      font-size: 12px;
+      color: #4a4840;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .hero-compass { width: 200px; height: 200px; }
+      .stats { gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">神盘</div>
+  <div class="nav-links">
+    <a href="#what">What Is It</a>
+    <a href="#experience">How It Feels</a>
+    <a href="#pricing">Back It</a>
+    <a href="#contact">Stay Updated</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Back Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Kickstarter · Coming Soon</div>
+  <img src="compass_design_v2.jpg" alt="Shenpan" class="hero-compass">
+  <h1>A Cyber-Feng-Shui<br>Desk Object for Modern Life</h1>
+  <p class="hero-sub">Not a gadget. Not an AI app. Shenpan is a ritual desk object — part talisman, part compass, part psychological anchor — that connects to your AI guide and helps you find direction in an overwhelming world.</p>
+  <div class="hero-actions">
+    <a href="#pricing" class="btn-primary">Back This Project — Early Bird</a>
+    <a href="#what" class="btn-secondary">Learn More</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-num">$290K+</span>
+    <span class="stat-label">Raised by Thinking Egg IV</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">5,817%</span>
+    <span class="stat-label">Thinking Egg IV Backers</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">$29</span>
+    <span class="stat-label">Starting Early Bird Price</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <span class="stat-label">Material Versions</span>
+  </div>
+</div>
+
+<!-- WHAT IS -->
+<section class="section" id="what">
+  <span class="section-label">What Is Shenpan</span>
+  <h2 class="section-title">A desk object that feels different.<br>Looks different. Means something.</h2>
+  <p class="section-desc">Shenpan is not a productivity tool. It's not another app. It's a physical ritual object — something you hold, spin, and place on your desk — that creates a moment of intentional pause and connects you to your AI guide.</p>
+
+  <div class="what-grid">
+    <div class="what-item">
+      <span class="what-icon">🧭</span>
+      <h3>Cyber Feng Shui</h3>
+      <p>Eastern symbolism meets futuristic aesthetic. A desk compass reimagined as a modern talisman — something that feels meaningful, not functional. Spin it when you need clarity, direction, or a reset.</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">🤖</span>
+      <h3>Your AI Guide</h3>
+      <p>Shenpan is not the AI — it's the ritual object that opens the door. Touch the NFC, and your AI guide greets you. Not a chatbot. A reflective presence that asks the right questions and helps you finish what matters.</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">🎁</span>
+      <h3>Psychological Anchor</h3>
+      <p>Research shows physical objects create stronger behavioral anchors than digital ones. Shenpan uses this — a tactile ritual that triggers a mental reset, the same way a worry stone or a spinner does, but with more meaning.</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">✨</span>
+      <h3>A Gift That Actually Matters</h3>
+      <p>Shenpan is the kind of gift that stays on someone's desk for years. It looks beautiful, it feels substantial, and it means something. Not another gadget that'll gather dust — a ritual object they'll use every day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <span class="section-label">How It Feels</span>
+  <h2 class="section-title">Not an app. Not a gadget.<br>A ritual you can hold.</h2>
+  <p class="section-desc">Shenpan is designed around the feeling of using it — the weight in your hand, the spin of the compass, the moment of intentional pause before you engage with your day.</p>
+
+  <div class="exp-step">
+    <div class="exp-num">1</div>
+    <div class="exp-body">
+      <h4>You pick it up</h4>
+      <p>Weight. Metal or stone. The kind of object that feels like it costs something. You hold it, feel its weight, turn it over in your hand.</p>
+    </div>
+  </div>
+  <div class="exp-step">
+    <div class="exp-num">2</div>
+    <div class="exp-body">
+      <h4>You spin the compass</h4>
+      <p>The needle or the face spins freely. There's a moment of kinetic satisfaction — similar to a fidget spinner, but with more intention. The physical act of "seeking direction" begins.</p>
+    </div>
+  </div>
+  <div class="exp-step">
+    <div class="exp-num">3</div>
+    <div class="exp-body">
+      <h4>You tap the NFC</h4>
+      <p>Your phone opens your AI guide. Not a notification — a deliberate ritual moment. The AI greets you: "What direction are you heading today?"</p>
+    </div>
+  </div>
+  <div class="exp-step">
+    <div class="exp-num">4</div>
+    <div class="exp-body">
+      <h4>You set your direction</h4>
+      <p>You answer. The AI remembers. Throughout your day, it gently checks in — not to nag, but to help you stay oriented. At night, a final reflection: did you move in your chosen direction?</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <span class="section-label">Early Bird Backing</span>
+  <h2 class="section-title">Choose Your Shenpan</h2>
+  <p class="section-desc">Back now at early bird prices. Once the campaign ends, these rewards will not be available at this price again.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Basic</div>
+      <div class="price-material">Walnut + 1 Year AI Access</div>
+      <span class="price-amount">$29</span>
+      <span class="price-early">Early Bird · Retail $39</span>
+      <ul class="price-features">
+        <li>Walnut wood compass</li>
+        <li>1 year AI guide access</li>
+        <li>Web dashboard</li>
+        <li>NFC ritual trigger</li>
+        <li>Daily direction prompts</li>
+      </ul>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-name">Obsidian</div>
+      <div class="price-material">Obsidian + 1 Year AI Access</div>
+      <span class="price-amount">$49</span>
+      <span class="price-early">Early Bird · Retail $69</span>
+      <ul class="price-features">
+        <li>Obsidian stone compass</li>
+        <li>1 year AI guide access</li>
+        <li>Web dashboard</li>
+        <li>NFC ritual trigger</li>
+        <li>Priority support</li>
+        <li>Monthly deep reflection</li>
+      </ul>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Premium</div>
+      <div class="price-material">Brass + Lifetime AI Access</div>
+      <span class="price-amount">$79</span>
+      <span class="price-early">Early Bird · Retail $119</span>
+      <ul class="price-features">
+        <li>Solid brass compass</li>
+        <li>Lifetime AI guide access</li>
+        <li>NFT identity badge</li>
+        <li>Quarterly premium rituals</li>
+        <li>Priority shipping</li>
+      </ul>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Gift Set</div>
+      <div class="price-material">Two Compasses + 2 Years AI</div>
+      <span class="price-amount">$99</span>
+      <span class="price-early">Early Bird · Retail $149</span>
+      <ul class="price-features">
+        <li>Two obsidian compasses</li>
+        <li>2 years AI access each</li>
+        <li>Premium gift packaging</li>
+        <li>Personalized greeting card</li>
+        <li>NFC ritual trigger</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 44px;">
+    <a href="#contact" class="btn-primary">Back This Project</a>
+    <p style="font-size: 12px; color: #4a4840; margin-top: 12px;">Full refund if campaign doesn't meet goal · Secure Stripe checkout</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Some objects<br>just feel right.</h2>
+  <p>Shenpan is a desk object for people who want direction,<br>ritual, and something meaningful — not another screen.</p>
+  <a href="#pricing" class="btn-primary">Back on Kickstarter</a>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <span class="section-label">Stay Updated</span>
+  <h2 class="section-title">Be the first to know<br>when we launch.</h2>
+  <p class="section-desc">Leave your email. We'll notify you the moment the campaign goes live — and give you an exclusive early backer code.</p>
+
+  <div style="max-width: 420px; margin: 0 auto;">
+    <form style="display:flex; gap: 8px;">
+      <input type="email" placeholder="your@email.com" style="flex:1; padding: 12px 16px; background: rgba(180,140,60,0.06); border: 1px solid rgba(180,140,60,0.2); border-radius: 6px; color: #e8e4dc; font-size: 14px; outline: none;">
+      <button type="submit" class="btn-primary" style="white-space: nowrap;">Notify Me</button>
+    </form>
+    <p style="font-size: 11px; color: #4a4840; margin-top: 10px; text-align: center;">No spam. No sharing. Just launch notification.</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Shenpan · A Cyber-Feng-Shui Desk Object · ecompass Project<br>Kickstarter campaign coming before May 1</p>
+</footer>
+
+</body>
+</html>

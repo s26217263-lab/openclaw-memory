@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>validation-lab 市场验证实验室 · v1 汇报页</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.6; padding: 2rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; color: #58a6ff; margin-bottom: 0.5rem; }
+  h2 { font-size: 1.3rem; color: #79c0ff; margin: 2rem 0 1rem; border-bottom: 1px solid #21262d; padding-bottom: 0.5rem; }
+  h3 { font-size: 1.05rem; color: #d2a8ff; margin: 1.2rem 0 0.6rem; }
+  .badge { display: inline-block; background: #238636; color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; }
+  .badge-wip { background: #9e6a03; }
+  .meta { color: #8b949e; font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; }
+  .tag { display: inline-block; background: #1f6feb; color: #fff; font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; margin: 2px 4px 2px 0; }
+  .tag-red { background: #da3633; }
+  .tag-green { background: #238636; }
+  .tag-yellow { background: #9e6a03; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: #1f6feb; color: #fff; padding: 8px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+  tr:hover td { background: #1c2128; }
+  .verdict { font-size: 1.1rem; font-weight: bold; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+  .verdict-iterate { background: #1f2937; border-left: 4px solid #f59e0b; color: #fcd34d; }
+  .verdict-go { background: #1a2e1a; border-left: 4px solid #22c55e; color: #86efac; }
+  .next-q { background: #1c1c2e; border: 1px solid #3b3b7a; border-radius: 8px; padding: 1rem; margin: 1rem 0; color: #a5b4fc; }
+  code { background: #21262d; color: #e6edf3; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+  ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+  li { margin: 0.3rem 0; }
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #21262d; color: #8b949e; font-size: 0.8rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🧪 validation-lab 市场验证实验室 <span class="badge">v1 运行中</span></h1>
+<p class="meta">最后更新：2026-03-27 · 市场验证群已绑定 · 自然触发已验证</p>
+
+<h2>这是什么</h2>
+<div class="card">
+<p><strong>validation-lab</strong> 是一个独立、可控、可停、可替换的市场验证实验室 agent。</p>
+<p style="margin-top:0.8rem">它的职责是在项目进入真实世界之前，承担<strong>低成本、多轮、结构化的市场验证</strong>，帮助主线业务减少方向性错误。</p>
+</div>
+
+<h2>它能做什么（5 类）</h2>
+<div class="card">
+<ul>
+<li>✅ <strong>验证定位</strong> — 这个说法用户能不能立刻懂？会不会误解成玄学？</li>
+<li>🔄 <strong>比较版本</strong> — Version A / B / C 哪个更容易被接受？</li>
+<li>⚠️ <strong>找风险</strong> — 最大的 adoption blocker 是什么？</li>
+<li>✏️ <strong>给修正建议</strong> — 下一轮要改什么？为什么改？</li>
+<li>🚦 <strong>判断进真实市场</strong> — go / no-go / iterate</li>
+</ul>
+</div>
+
+<h2>目录结构</h2>
+<div class="card">
+<table>
+<tr><td><code>inbox/</code></td><td>任务入口，放入验证请求</td></tr>
+<tr><td><code>rounds/</code></td><td>每轮验证的输入、输出、结论</td></tr>
+<tr><td><code>reports/</code></td><td>结构化结论沉淀</td></tr>
+<tr><td><code>tools/</code></td><td>辅助脚本</td></tr>
+<tr><td><code>logs/</code></td><td>运行日志</td></tr>
+<tr><td><code>state/</code></td><td>状态控制面</td></tr>
+<tr><td><code>sandbox/</code></td><td>重依赖试验区（MiroFish 等未来接入点）</td></tr>
+</table>
+</div>
+
+<h2>Round 流转机制</h2>
+<div class="card">
+<p>validation-lab 按 round 运作，不接受随意聊天推进。每轮结构：</p>
+<div style="margin-top:0.8rem">
+<span class="tag">brief</span> → <span class="tag">inputs-ready</span> → <span class="tag">comparison</span> → <span class="tag">judgement</span> → <span class="tag">next-actions</span> → <span class="tag">done</span>
+</div>
+<p style="margin-top:0.8rem;font-size:0.85rem;color:#8b949e">每轮至少要有：输入材料、版本比较、结构化结论、next-actions、go/no-go/iterate 判断</p>
+</div>
+
+<h2>真实 Demo 结果 <span class="badge badge-wip">Round-002 已完成</span></h2>
+
+<h3>命题</h3>
+<div class="card">
+<p><strong>美国市场首发品牌表达方向验证</strong></p>
+<p style="color:#8b949e;font-size:0.85rem">版本 A：设计感 / 科技感 / 隐私感 / 高级生活方式表达<br>版本 B：直接功能导向 / 传统成人用品表达</p>
+</div>
+
+<h3>对比结论</h3>
+<table>
+<tr><th>维度</th><th>Version A</th><th>Version B</th></tr>
+<tr><td>理解难度</td><td>中等，需补清晰度</td><td>低，用户更快知道是什么</td></tr>
+<tr><td>信任感</td><td>高，更像正规品牌</td><td>中，容易像普通成人货架商品</td></tr>
+<tr><td>购买舒适度</td><td>高，羞耻感更低</td><td>中低，部分用户会因过直白而不适</td></tr>
+<tr><td>高客单潜力</td><td>高，更能支撑溢价</td><td>低到中，更容易陷入价格比较</td></tr>
+<tr><td>品牌延展性</td><td>高，适合扩更多 SKU</td><td>低，更像单次交易导向</td></tr>
+<tr><td>被误解风险</td><td>易被误解为太抽象</td><td>易被误解为低端、露骨</td></tr>
+<tr><td>与团队优势匹配度</td><td><strong>很高</strong></td><td>中低</td></tr>
+<tr><td>作为美国首发方案的适合度</td><td><strong>更优，但需迭代</strong></td><td>可短期卖货，不适合品牌战略</td></tr>
+</table>
+
+<h3>本轮最终判断</h3>
+<div class="verdict verdict-iterate">
+  🚦 Iterate — 先迭代再决定<br>
+  <span style="font-size:0.9rem;font-weight:normal">推荐 Version A，但需要把"高级感表达"和"首屏可理解性"之间的平衡调好，不能直接用纯抽象版 A 上真实市场。</span>
+</div>
+
+<h3>Version A 当前最大问题</h3>
+<div class="card">
+<p>用户可能觉得"高级"，但不知道"到底是什么"。</p>
+<p style="margin-top:0.5rem">解决方向：让用户 <strong>5–10 秒内就知道这是什么</strong>，同时保留高级感、隐私感和品牌溢价空间。</p>
+</div>
+
+<h3>推荐修正方向</h3>
+<div class="card">
+<p><strong>语气：</strong>克制、现代、清晰、可信。不要过度诗意化，不要只讲氛围不讲品类。</p>
+<p style="margin-top:0.6rem"><strong>强化词：</strong><span class="tag">private</span><span class="tag">discreet</span><span class="tag">designed</span><span class="tag">premium</span><span class="tag">trusted</span><span class="tag">intimate</span><span class="tag">refined</span><span class="tag">safe</span></p>
+<p style="margin-top:0.6rem"><strong>避免词：</strong>过于玄的词 / 过于空泛的 lifestyle 套话 / 过于露骨粗暴的成人词汇</p>
+<p style="margin-top:0.6rem"><strong>信任元素：</strong>discreet shipping · secure checkout · clear warranty/returns · material basics · brand consistency</p>
+</div>
+
+<h3>下一轮最值得验证的唯一问题</h3>
+<div class="next-q">
+如何把 Version A 调整到"用户 5–10 秒内就知道这是一个什么产品，同时仍保留高级感、隐私感和品牌溢价空间"？
+</div>
+
+<h2>使用方式</h2>
+<div class="card">
+<p><strong>在「市场验证」群里直接发任务</strong>（无需 @），validation-lab 会自动接收并组织 round。</p>
+<p style="margin-top:0.6rem">或者把内容写入 <code>validation-lab/inbox/</code>，我会自动读取并启动验证流程。</p>
+</div>
+
+<h2>已知边界</h2>
+<div class="card">
+<ul>
+<li>❌ 不负责主线项目执行</li>
+<li>❌ 不替代 main agent 做商业决策</li>
+<li>❌ 不负责生产系统运维</li>
+<li>❌ 目前不支持 MiroFish 等外部工具（Phase 3 规划）</li>
+</ul>
+</div>
+
+<h2>当前 agent 状态</h2>
+<div class="card">
+<p><span class="tag tag-green">✅ v1 骨架完成</span></p>
+<p style="margin-top:0.6rem;font-size:0.85rem;color:#8b949e">
+✅ 角色定义与边界固化 &nbsp;·&nbsp; ✅ 目录骨架 &nbsp;·&nbsp; ✅ 输入模板 &nbsp;·&nbsp; ✅ 输出模板<br>
+✅ Round 机制 &nbsp;·&nbsp; ✅ 最小运行闭环 &nbsp;·&nbsp; ✅ 群自然触发验证 &nbsp;·&nbsp; ✅ 使用说明<br>
+🔄 HTML 汇报页制作中 &nbsp;·&nbsp; ⏳ MiroFish 接入（Phase 3）
+</p>
+</div>
+
+<div class="footer">
+validation-lab · 市场验证实验室 · v1<br>
+OpenClaw Workspace · 2026-03-27
+</div>
+
+</div>
+</body>
+</html>

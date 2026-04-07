@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神盘 — 每天早上转一下，找到今天的方向</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: #08080e;
+      color: #e8e4dc;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: rgba(8,8,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180,140,60,0.15);
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #d4a843, #f0c96c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 13px;
+      color: #8a8470;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #d4a843; }
+    .nav-cta {
+      padding: 8px 20px;
+      background: transparent;
+      border: 1px solid #d4a843;
+      color: #d4a843;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: #d4a843; color: #08080e; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(180,140,50,0.08) 0%, transparent 60%),
+        #08080e;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 5px 16px;
+      border: 1px solid rgba(212,168,67,0.4);
+      border-radius: 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #d4a843;
+      margin-bottom: 36px;
+      text-transform: uppercase;
+    }
+
+    .hero-compass {
+      width: 280px;
+      height: 280px;
+      margin-bottom: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(212,168,67,0.3);
+      box-shadow:
+        0 0 60px rgba(212,168,67,0.12),
+        0 0 120px rgba(212,168,67,0.06);
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #e8e4dc 0%, #c9a84c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: #7a7568;
+      max-width: 480px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #c9a84c, #d4a843);
+      color: #08080e;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,168,67,0.3);
+    }
+
+    .btn-secondary {
+      padding: 14px 40px;
+      background: transparent;
+      color: #c9a84c;
+      border: 1px solid rgba(212,168,67,0.4);
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: #c9a84c; }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      padding: 60px 24px;
+      border-top: 1px solid rgba(180,140,60,0.1);
+      border-bottom: 1px solid rgba(180,140,60,0.1);
+      background: rgba(180,140,60,0.03);
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-size: 32px;
+      font-weight: 700;
+      color: #d4a843;
+      display: block;
+    }
+    .stat-label { font-size: 13px; color: #6a6560; margin-top: 4px; display: block; }
+
+    /* ── SECTION ── */
+    .section { max-width: 960px; margin: 0 auto; padding: 100px 24px; }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #d4a843;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      color: #e8e4dc;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: #7a7568;
+      max-width: 600px;
+      margin-bottom: 56px;
+      line-height: 1.7;
+    }
+
+    /* ── WHAT IS ── */
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border: 1px solid rgba(180,140,60,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .what-item {
+      background: rgba(180,140,60,0.04);
+      padding: 40px;
+    }
+    .what-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .what-item h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #e8e4dc;
+      margin-bottom: 10px;
+    }
+    .what-item p {
+      font-size: 14px;
+      color: #6a6560;
+      line-height: 1.65;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 48px;
+      padding: 32px;
+      border: 1px solid rgba(180,140,60,0.1);
+      border-radius: 10px;
+      background: rgba(180,140,60,0.02);
+    }
+    .exp-time {
+      min-width: 80px;
+      font-size: 13px;
+      color: #d4a843;
+      font-weight: 600;
+      padding-top: 4px;
+    }
+    .exp-content h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e8e4dc;
+      margin-bottom: 6px;
+    }
+    .exp-content p { font-size: 14px; color: #6a6560; }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .what-grid { grid-template-columns: 1fr; }
+      .stats { flex-wrap: wrap; gap: 32px; }
+    }
+    .price-card {
+      border: 1px solid rgba(180,140,60,0.2);
+      border-radius: 10px;
+      padding: 28px 20px;
+      text-align: center;
+      background: rgba(180,140,60,0.03);
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: #d4a843;
+      background: rgba(212,168,67,0.08);
+    }
+    .price-badge {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #d4a843;
+      color: #08080e;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 0 0 8px 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .price-name {
+      font-size: 14px;
+      color: #8a8470;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .price-material {
+      font-size: 13px;
+      color: #6a6560;
+      margin-bottom: 16px;
+    }
+    .price-amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: #d4a843;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .price-early {
+      font-size: 11px;
+      color: #6a6560;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .price-features {
+      list-style: none;
+      text-align: left;
+      font-size: 12px;
+      color: #7a7568;
+      line-height: 1.8;
+    }
+    .price-features li::before { content: "✓ "; color: #d4a843; }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 100px 24px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(180,140,50,0.07) 0%, transparent 70%);
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: #e8e4dc;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .cta-section p {
+      font-size: 16px;
+      color: #7a7568;
+      margin-bottom: 40px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(180,140,60,0.1);
+      font-size: 12px;
+      color: #4a4840;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">神盘</div>
+  <div class="nav-links">
+    <a href="#what">是什么</a>
+    <a href="#experience">体验</a>
+    <a href="#pricing">支持</a>
+    <a href="#contact">联系</a>
+  </div>
+  <a href="#pricing" class="nav-cta">立即预订</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Kickstarter 即将上线</div>
+  <img src="compass_design_v2.jpg" alt="神盘" class="hero-compass">
+  <h1>每天早上转一下，<br>找到今天的方向</h1>
+  <p class="hero-sub">神盘是一个桌面仪式罗盘 + AI 经营助手的组合。转一下，你的 AI 会问你今天最重要的事，然后陪你推进，直到结果出现。</p>
+  <div class="hero-actions">
+    <a href="#pricing" class="btn-primary">立即预订早鸟档</a>
+    <a href="#experience" class="btn-secondary">了解更多</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-num">10,000+</span>
+    <span class="stat-label">情绪硬件众筹市场（USD）</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">5,817%</span>
+    <span class="stat-label">Thinking Egg IV 众筹达成率</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">$19</span>
+    <span class="stat-label">早鸟起步价</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <span class="stat-label">材质版本可选</span>
+  </div>
+</div>
+
+<!-- WHAT IS -->
+<section class="section" id="what">
+  <span class="section-label">产品是什么</span>
+  <h2 class="section-title">神盘 = 一个仪式罗盘<br>+ 一个永不疲倦的 AI 经营伙伴</h2>
+  <p class="section-desc">我们把实体罗盘的手感、仪式感，和 AI 的持续推进能力，组合成了一套每日使用的桌面系统。</p>
+
+  <div class="what-grid">
+    <div class="what-item">
+      <span class="what-icon">🧭</span>
+      <h3>实体罗盘</h3>
+      <p>黄铜 / 黑曜石 / 胡桃木三种材质。拿起来有重量感，转一下有仪式感，放在桌面是艺术品。背面藏有 NFC 芯片，碰一下即可开启专属数字体验。</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">🤖</span>
+      <h3>AI 经营助手</h3>
+      <p>每天第一次触发罗盘，AI 会问："今天最重要的一件事是什么？" 记住你的答案，持续跟踪进度，结束时汇报结果。一天结束，看一眼罗盘就知道今天有没有迷失。</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">📊</span>
+      <h3>每日聚焦</h3>
+      <p>不贪多，只抓一件最重要的事。AI 帮你挡住其他噪音，直到这件最重要的事被推进、被完成、被记录。</p>
+    </div>
+    <div class="what-item">
+      <span class="what-icon">🎁</span>
+      <h3>强礼品属性</h3>
+      <p>送神盘 = 送方向感 + 送陪伴 + 送一个每天都在的 AI。比普通摆件更有意义，比送书更具体验感。</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <span class="section-label">每日体验</span>
+  <h2 class="section-title">一天的使用流程</h2>
+  <p class="section-desc">从早上拿起罗盘，到一天结束复盘，神盘陪你走过完整的推进闭环。</p>
+
+  <div class="exp-row">
+    <div class="exp-time">早上</div>
+    <div class="exp-content">
+      <h4>转一下罗盘，AI 开始今天的对话</h4>
+      <p>触碰罗盘NFC，AI 打招呼："早上好。今天最重要的一件事是什么？" 你说出来，它记住了。</p>
+    </div>
+  </div>
+  <div class="exp-row">
+    <div class="exp-time">工作中</div>
+    <div class="exp-content">
+      <h4>遇到阻塞了，再转一下罗盘</h4>
+      <p>不知道从哪下手？卡住了？转一下罗盘，AI 帮你分析：现在卡在哪了？需要我帮你做什么？</p>
+    </div>
+  </div>
+  <div class="exp-row">
+    <div class="exp-time">下午</div>
+    <div class="exp-content">
+      <h4>AI 主动追踪进度</h4>
+      <p>"今天那件事推进得怎么样了？" 神盘不会让你轻易逃掉，它会持续追着你，直到有结果。</p>
+    </div>
+  </div>
+  <div class="exp-row">
+    <div class="exp-time">睡前</div>
+    <div class="exp-content">
+      <h4>看一眼罗盘，完成今日复盘</h4>
+      <p>AI 汇报：今天你推进了哪件最重要的事。没有迷失的一天，才是有意义的一天。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <span class="section-label">早鸟预订</span>
+  <h2 class="section-title">选择你的神盘</h2>
+  <p class="section-desc">众筹期专属早鸟价，正式发布后恢复零售价。现在预订，锁定最大优惠。</p>
+
+  <div class="pricing-grid">
+    <!-- 基础版 -->
+    <div class="price-card">
+      <div class="price-name">基础版</div>
+      <div class="price-material">胡桃木 + 1年AI服务</div>
+      <span class="price-amount">$29</span>
+      <span class="price-early">早鸟价 · 零售$49</span>
+      <ul class="price-features">
+        <li>胡桃木罗盘一个</li>
+        <li>1年AI服务订阅</li>
+        <li>网页端使用</li>
+        <li>二维码入口</li>
+        <li>年度复盘报告</li>
+      </ul>
+    </div>
+
+    <!-- 标准版 -->
+    <div class="price-card featured">
+      <div class="price-badge">最受欢迎</div>
+      <div class="price-name">标准版</div>
+      <div class="price-material">黑曜石 + 1年AI服务</div>
+      <span class="price-amount">$49</span>
+      <span class="price-early">早鸟价 · 零售$69</span>
+      <ul class="price-features">
+        <li>黑曜石罗盘一个</li>
+        <li>1年AI服务订阅</li>
+        <li>网页端使用</li>
+        <li>NFC触碰入口</li>
+        <li>优先客服通道</li>
+        <li>年度复盘报告</li>
+      </ul>
+    </div>
+
+    <!-- 高级版 -->
+    <div class="price-card">
+      <div class="price-name">高级版</div>
+      <div class="price-material">黄铜 + 永久AI服务</div>
+      <span class="price-amount">$79</span>
+      <span class="price-early">早鸟价 · 零售$119</span>
+      <ul class="price-features">
+        <li>黄铜罗盘一个</li>
+        <li>永久AI服务授权</li>
+        <li>专属NFT身份标识</li>
+        <li>NFC + NFT双入口</li>
+        <li>每月专属复盘</li>
+        <li>优先新品体验</li>
+      </ul>
+    </div>
+
+    <!-- 礼品套装 -->
+    <div class="price-card">
+      <div class="price-name">礼品套装</div>
+      <div class="price-material">两个罗盘 + 两年AI服务</div>
+      <span class="price-amount">$99</span>
+      <span class="price-early">早鸟价 · 零售$149</span>
+      <ul class="price-features">
+        <li>黑曜石罗盘两个</li>
+        <li>2年AI服务订阅</li>
+        <li>礼品包装</li>
+        <li>一张心意卡</li>
+        <li>NFC触碰入口</li>
+        <li>优先客服通道</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <a href="#contact" class="btn-primary">立即预订</a>
+    <p style="font-size:12px; color:#4a4840; margin-top:12px;">众筹开始后按早鸟价结算 · 支持全额退款</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>不想迷失的人，<br>都在等一个罗盘。</h2>
+  <p>Kickstarter 众筹即将开始，早鸟档位数量有限。</p>
+  <a href="#pricing" class="btn-primary">锁定早鸟价</a>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <span class="section-label">联系我们</span>
+  <h2 class="section-title">有问题？想要更早参与？</h2>
+  <p class="section-desc">留下你的邮箱，我们会在 Kickstarter 上线第一时间通知你，并给你专属的早鸟码。</p>
+
+  <div style="max-width: 440px; margin: 0 auto;">
+    <form @submit.prevent="submit" style="display:flex; gap:8px;">
+      <input
+        type="email"
+        placeholder="你的邮箱地址"
+        style="flex:1; padding:12px 16px; background:rgba(180,140,60,0.06); border:1px solid rgba(180,140,60,0.2); border-radius:6px; color:#e8e4dc; font-size:14px; outline:none;"
+      >
+      <button type="submit" class="btn-primary" style="white-space:nowrap;">通知我</button>
+    </form>
+    <p style="font-size:11px; color:#4a4840; margin-top:10px; text-align:center;">
+      我们不会向第三方透露你的邮箱。众筹上线前你会第一个知道。
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 神盘 · ecompass 旗下产品 · 所有权利保留</p>
+</footer>
+
+</body>
+</html>

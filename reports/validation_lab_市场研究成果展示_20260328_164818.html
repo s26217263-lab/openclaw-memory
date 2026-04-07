@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>validation-lab 市场研究成果展示</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: rgba(16, 24, 48, 0.78);
+    --panel-2: rgba(255,255,255,0.04);
+    --text: #eef2ff;
+    --muted: #a5b4fc;
+    --soft: #cbd5e1;
+    --line: rgba(255,255,255,0.10);
+    --accent: #7c3aed;
+    --accent-2: #06b6d4;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(124,58,237,.24), transparent 28%),
+      radial-gradient(circle at top left, rgba(6,182,212,.20), transparent 24%),
+      linear-gradient(180deg, #0b1020 0%, #111827 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 72px; }
+  .hero {
+    padding: 38px 34px;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(124,58,237,.22), rgba(6,182,212,.12)), var(--panel);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.28);
+  }
+  .eyebrow {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.08);
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: .08em;
+  }
+  h1 {
+    margin: 16px 0 12px;
+    font-size: 44px;
+    line-height: 1.12;
+  }
+  .sub {
+    max-width: 820px;
+    color: var(--soft);
+    font-size: 18px;
+  }
+  .meta {
+    margin-top: 18px;
+    color: #dbe4ff;
+    font-size: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+    margin-top: 26px;
+  }
+  .card {
+    grid-column: span 12;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .card.half { grid-column: span 6; }
+  .card.third { grid-column: span 4; }
+  h2 {
+    margin: 0 0 14px;
+    font-size: 24px;
+  }
+  h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #e9d5ff;
+  }
+  p { margin: 0 0 12px; }
+  ul { margin: 0; padding-left: 20px; }
+  li { margin: 8px 0; color: var(--soft); }
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .kpi {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px;
+  }
+  .kpi .num {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .muted { color: var(--muted); }
+  .tag {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin: 4px 8px 0 0;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.05);
+  }
+  .good { color: #bbf7d0; background: rgba(34,197,94,.14); }
+  .warn { color: #fde68a; background: rgba(245,158,11,.16); }
+  .bad { color: #fecaca; background: rgba(239,68,68,.14); }
+  .quote {
+    border-left: 4px solid var(--accent-2);
+    padding: 14px 16px;
+    background: rgba(255,255,255,.04);
+    border-radius: 12px;
+    color: #e2e8f0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-top: 8px;
+  }
+  th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: rgba(255,255,255,.06);
+    color: #e9d5ff;
+    font-weight: 600;
+  }
+  tr:last-child td { border-bottom: none; }
+  .timeline {
+    display: grid;
+    gap: 14px;
+  }
+  .step {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,.03);
+  }
+  .footer {
+    margin-top: 26px;
+    color: #cbd5e1;
+    font-size: 13px;
+    text-align: right;
+  }
+  @media (max-width: 920px) {
+    .card.half, .card.third { grid-column: span 12; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">市场研究成果展示 · 股东汇报版</div>
+      <h1>validation-lab 市场验证实验室<br />阶段成果展示</h1>
+      <p class="sub">本页将 validation-lab 相关分散的 markdown、结构设计、轮次结论与阶段沉淀，整理为可直接展示的汇报页面。重点说明：这个实验室已经完成从概念到可运行骨架的搭建，并产出了一轮具有业务指导意义的真实市场判断。</p>
+      <div class="meta">生成时间：2026-03-28 16:48:18 CST ｜ 输出形式：HTML 汇报页 ｜ 适用场景：股东汇报 / 阶段复盘 / 项目展示</div>
+      <div class="kpis">
+        <div class="kpi"><div class="num">13</div><div class="muted">已完成建设事项</div></div>
+        <div class="kpi"><div class="num">3</div><div class="muted">已沉淀 round 轮次</div></div>
+        <div class="kpi"><div class="num">1</div><div class="muted">明确业务方向结论</div></div>
+        <div class="kpi"><div class="num">A</div><div class="muted">当前推荐主方向</div></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card half">
+        <h2>一、项目定位</h2>
+        <p><strong>validation-lab</strong> 不是临时写文档的文件夹，而是一个独立、可控、可停、可替换的市场验证实验室。</p>
+        <p>它的价值不在“代替主业务做决策”，而在于：在项目真正进入市场之前，用更低成本、更结构化的方式，提前验证方向、暴露误解、找出 adoption blocker，并把下一步该改什么讲清楚。</p>
+        <div class="quote">一句话：主业务负责决策，validation-lab 负责验证。</div>
+      </div>
+
+      <div class="card half">
+        <h2>二、解决的核心问题</h2>
+        <ul>
+          <li>把“拍脑袋判断”变成“可复盘的 round 结论”。</li>
+          <li>把“讨论方向”变成“对版本 A/B/C 的结构化比较”。</li>
+          <li>把“感觉风险很大”拆成明确的误解点、阻力点和商业后果。</li>
+          <li>把“继续讨论”收束成 go / iterate / no-go 三种行动指令。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>三、当前建设完成度</h2>
+        <p>截至当前，validation-lab 已不是停留在概念层，而是已经完成一套可运行的基础设施和方法论骨架。</p>
+        <div>
+          <span class="tag good">已完成：角色定义与边界固化</span>
+          <span class="tag good">已完成：目录骨架与隔离结构</span>
+          <span class="tag good">已完成：输入模板设计</span>
+          <span class="tag good">已完成：输出模板设计</span>
+          <span class="tag good">已完成：round 机制与状态流转</span>
+          <span class="tag good">已完成：最小运行闭环</span>
+          <span class="tag good">已完成：真实 round demo 跑通</span>
+          <span class="tag good">已完成：使用说明与汇报物</span>
+          <span class="tag good">已完成：群绑定与自然触发验证</span>
+        </div>
+      </div>
+
+      <div class="card third">
+        <h3>输入层</h3>
+        <p>统一收项目名、验证目标、假设、目标用户、当前版本材料、成功/失败标准，避免模糊提问。</p>
+      </div>
+      <div class="card third">
+        <h3>验证层</h3>
+        <p>每次按 round 推进，对版本进行比较、提炼关键发现、识别误解与风险。</p>
+      </div>
+      <div class="card third">
+        <h3>输出层</h3>
+        <p>固定输出关键发现、接受点、误解点、风险点、修正建议，以及是否进入下一轮。</p>
+      </div>
+
+      <div class="card half">
+        <h2>四、为什么要做成独立实验室</h2>
+        <ul>
+          <li>避免市场验证的试验逻辑污染主执行系统。</li>
+          <li>未来接 MiroFish、Reddit、X、Landing Page 验证工具时，可以在隔离环境中接入。</li>
+          <li>即使验证工具出问题，主 OpenClaw 系统仍可正常运行。</li>
+          <li>结构化沉淀所有轮次，便于团队复盘和对外展示。</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2>五、目录与组织方式</h2>
+        <table>
+          <tr><th>模块</th><th>作用</th></tr>
+          <tr><td>inbox/</td><td>验证任务入口</td></tr>
+          <tr><td>rounds/</td><td>每轮输入、比较、结论、next actions</td></tr>
+          <tr><td>reports/</td><td>已沉淀的结构化汇报结论</td></tr>
+          <tr><td>tools/</td><td>辅助脚本与未来桥接层</td></tr>
+          <tr><td>logs/</td><td>独立日志</td></tr>
+          <tr><td>state/</td><td>状态控制面</td></tr>
+          <tr><td>sandbox/</td><td>重依赖、外部验证工具试验区</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>六、已产出的真实业务判断</h2>
+        <p>当前最关键的一轮验证，聚焦于“美国市场首发品牌表达方向”。结论并不是停留在审美层，而是已经下沉到商业后果层面。</p>
+        <table>
+          <tr><th>对比维度</th><th>Version A</th><th>Version B</th></tr>
+          <tr><td>品牌感与信任感</td><td>更强，更像正规品牌</td><td>偏弱，容易像普通成人货架商品</td></tr>
+          <tr><td>购买舒适度</td><td>更高，羞耻感更低</td><td>偏低，容易因过直白导致不适</td></tr>
+          <tr><td>高客单与溢价空间</td><td>更强</td><td>更容易陷入价格竞争</td></tr>
+          <tr><td>与团队真实优势匹配度</td><td>高</td><td>中低</td></tr>
+          <tr><td>美国独立站首发适配度</td><td>优，但需迭代</td><td>不适合作为主品牌方向</td></tr>
+        </table>
+        <div style="margin-top:12px;">
+          <span class="tag good">结论：选择 Version A 作为主方向</span>
+          <span class="tag warn">前提：必须迭代成“清楚版 A”</span>
+          <span class="tag bad">Version B：不再作为主品牌方向继续投入</span>
+        </div>
+      </div>
+
+      <div class="card half">
+        <h2>七、为什么不是 Version B</h2>
+        <ul>
+          <li>虽然更直接，但容易被理解为普通成人用品，而不是一个可信的新品牌。</li>
+          <li>很难解释为什么值得更高定价，容易迅速进入价格比较。</li>
+          <li>会稀释团队在视觉、包装、品牌感上的真实能力。</li>
+          <li>更适合平台货架式卖货，不适合独立站首发品牌战略。</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2>八、为什么 A 还不能直接上线</h2>
+        <ul>
+          <li>当前 A 的唯一关键问题不是“方向错”，而是“首屏品类识别速度不够快”。</li>
+          <li>用户可能在 5–10 秒内觉得它看起来不错，但不知道它到底是什么。</li>
+          <li>如果继续保持过于抽象的高级感，会导致流量进入后无法顺利转化。</li>
+          <li>因此真正需要验证的是：A 的“清楚度阈值”到底要多高。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>九、下一轮最关键的验证命题</h2>
+        <div class="quote">如何让用户在 5–10 秒内知道这是什么产品，同时不破坏高级感、隐私感和品牌溢价空间？</div>
+        <p style="margin-top:14px;">围绕这个问题，下一轮会测试 A0 / A1 / A2 三种首屏表达强度，重点观察：</p>
+        <ul>
+          <li>品类识别速度是否达标</li>
+          <li>是否仍然保留品牌溢价感</li>
+          <li>是否产生尴尬、露骨或信任不足的问题</li>
+          <li>是否能继续浏览、产生进一步了解意愿</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2>十、对业务的直接价值</h2>
+        <ul>
+          <li>在正式投放前先筛掉错误方向，减少试错成本。</li>
+          <li>把“感受型争论”转化成“结构化结论”，提高内部共识效率。</li>
+          <li>帮助品牌方向、页面方向、叙事方向在真实市场之前收敛。</li>
+          <li>形成可持续复用的方法，而不是一次性脑暴。</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2>十一、当前阶段结论</h2>
+        <p><strong>validation-lab v1 已经完成从“想法”到“可运行验证骨架”的跨越。</strong></p>
+        <p>它已经能承接输入、组织 round、产出结构化结论，并给出真实可执行的下一步验证建议。对当前项目而言，它已经不是辅助文档，而是一个正在形成方法论资产的独立能力模块。</p>
+      </div>
+
+      <div class="card">
+        <h2>十二、阶段时间线</h2>
+        <div class="timeline">
+          <div class="step"><strong>阶段 1：设计基线确定</strong><br />明确 validation-lab 必须是独立实验室，而不是某个外部工具的壳。</div>
+          <div class="step"><strong>阶段 2：目录与协议落地</strong><br />完成 inbox / rounds / reports / state / sandbox 等隔离结构，并形成输入输出模板。</div>
+          <div class="step"><strong>阶段 3：运行闭环打通</strong><br />完成 round 机制、状态流转、最小可运行 demo，以及使用说明。</div>
+          <div class="step"><strong>阶段 4：真实业务判断产出</strong><br />对美国市场首发表达方向给出 A 优于 B 的结构化结论，并收敛到“清楚版 A”的验证任务。</div>
+          <div class="step"><strong>阶段 5：展示与对外汇报</strong><br />将内部 markdown 资料整理为可直接用于股东汇报的 HTML 成果展示页。</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">文件生成时间：2026-03-28 16:48:18 CST ｜ 汇总来源：validation-lab 目录内 README / STRUCTURE / USER_GUIDE / round 结论 / agent 设计文档</div>
+  </div>
+</body>
+</html>
